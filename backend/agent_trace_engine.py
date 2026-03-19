@@ -178,3 +178,83 @@ class AgentTraceBackend:
                 "severity": "HIGH (CVSS 8.4)",
                 "node": dst,
                 "title": "Unbounded Failure Retry Loop & Deadlock Risk",
+                "desc": f"Conditional branch '{src}' -> '{dst}' lacks a monotonic loop termination counter. Unhandled exceptions trigger infinite recursion.",
+                "patch_type": "CircuitBreaker"
+            })
+
+        # 3. Excessive Tool Privilege Escalation (OWASP-LLM-08):
+        # an execution/db/deploy-style node reachable from an entry node
+        # without any gate/critic/validation node interposed.
+        exec_nodes = [n for n in self.nodes if self._is_exec_node(n)]
+        # Reachability with gate nodes removed: if an exec node is still
+        # reachable after deleting every gate node, no path to it is actually
+        # gated (a gate elsewhere in the graph that isn't on the path doesn't count).
+        gate_ids = {n["id"] for n in self.nodes if self._is_gate_node(n)}
+        ungated_adjacency = {
+            nid: [t for t in targets if t not in gate_ids]
+            for nid, targets in adjacency.items()
+            if nid not in gate_ids
+        }
+
+        def bfs_reachable_ungated(start_id: str) -> set:
+            if start_id in gate_ids:
+                return set()
+            seen, queue = {start_id}, [start_id]
+            while queue:
+                curr = queue.pop(0)
+                for nxt in ungated_adjacency.get(curr, []):
+                    if nxt not in seen:
+                        seen.add(nxt)
+                        queue.append(nxt)
+            return seen
+
+        for exec_node in exec_nodes:
+            for entry in entry_nodes:
+                if exec_node["id"] == entry["id"]:
+                    continue
+                reachable_ungated = bfs_reachable_ungated(entry["id"])
+                if exec_node["id"] in reachable_ungated:
+                    self.vulnerabilities.append({
+                        "id": "OWASP-LLM-08",
+                        "severity": "CRITICAL (CVSS 9.4)",
+                        "node": exec_node["id"],
+                        "title": "Excessive Tool Privilege Escalation",
+                        "desc": f"Node '{exec_node.get('name', exec_node['id'])}' is reachable from entry point '{entry['id']}' with no gate/validation/human-review node interposed, allowing unauthenticated tool/DB execution.",
+                        "patch_type": "HardwarePermissionCeiling"
+                    })
+                    break  # one finding per exec node is enough
+
+        print(f"[+] Static Graph Analysis Complete: {len(self.vulnerabilities)} vulnerabilities detected.")
+
+    def synthesize_ast_guardrails(self) -> str:
+        """
+        Synthesizes a hardened Python script containing deterministic
+        runtime decorators and circuit-breaker wrappers.
+        """
+        print("[*] Synthesizing AST Guardrail Wrappers & Circuit Breakers...")
+        time.sleep(0.4)
+
+        hardened_code = f'''# ============================================================================
+# AGENT-TRACE // AUTO-SYNTHESIZED HARDENED MULTI-AGENT WORKFLOW
+# Generated for: {self.data.get("name", "Custom Workflow")}
+# Engine: AGENT-TRACE AST Compiler v4.2
+# ============================================================================
+
+import os
+import sys
+
+# Ensure import works from both repository root and backend directory
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+try:
+    from backend.guardrails import CircuitBreaker, TaintBoundaryIsolation, SecurityViolationError
+except ImportError:
+    from guardrails import CircuitBreaker, TaintBoundaryIsolation, SecurityViolationError
+
+# ----------------------------------------------------------------------------
+# 1. GUARDRAIL INTERCEPTORS
+# ----------------------------------------------------------------------------
+
+# Remediates CVE-2026-771: Cryptographic XML Nonce Isolation
+@TaintBoundaryIsolation(strict_mode=True, nonce="AGENT_TRACE_NONCE_984")
+def secure_input_ingress(raw_user_input: str) -> str:
+    """Sanitizes user input and neutralizes prompt injection payloads."""
