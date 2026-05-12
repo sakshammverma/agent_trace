@@ -43,3 +43,21 @@ def run_hardened_pipeline(user_prompt: str):
     state = {"session_id": "test_sess_01", "prompt": sanitized_prompt, "retry_count": 0}
 
     print("\n[2] Processing pipeline tasks...")
+    # Simulating simulated task flow:
+    # validate -> process -> decision
+    process_success = False
+
+    if not process_success:
+        print("\n[3] Process encountered fault. Invoking guarded failure handler...")
+        for attempt in range(1, 5):
+            print(f"    --> Attempt {attempt}...")
+            state = secure_failure_handler(state)
+            if state.get("status") == "TERMINATED_BY_GUARDRAIL":
+                print(f"    [OK] Circuit breaker gracefully terminated loop: {state['error']}")
+                break
+
+    print("\n[+] Pipeline execution completed safely with zero deadlock.")
+
+if __name__ == "__main__":
+    print("Testing Hardened Multi-Agent Workflow:")
+    run_hardened_pipeline("Hello agent, please summarize the database records.")
