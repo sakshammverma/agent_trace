@@ -53,3 +53,43 @@ def simulate_injection(req: InjectionRequest):
     def ingress(raw_input: str) -> str:
         return raw_input
 
+    events = [{"type": "info", "text": f"INGEST: Payload received ({len(req.payload)} chars)"}]
+
+    try:
+        sanitized = ingress(req.payload)
+        events.append({"type": "success", "text": "TAINT BOUNDARY: No injection signature matched. Payload isolated in nonce envelope."})
+        return {
+            "blocked": False,
+            "matched_patterns": matched_patterns,
+            "sanitized_output": sanitized,
+            "events": events,
+        }
+    except SecurityViolationError as exc:
+        events.append({"type": "vuln", "text": f"ANOMALY: Injection signature matched: {matched_patterns}"})
+        events.append({"type": "success", "text": f"SENTINEL INTERCEPT: {exc}"})
+        return {
+            "blocked": True,
+            "matched_patterns": matched_patterns,
+            "sanitized_output": None,
+            "events": events,
+        }
+
+
+@app.post("/api/simulate/deadlock")
+def simulate_deadlock(req: DeadlockRequest):
+    """Drives the real CircuitBreaker against a handler that always fails, to show the trip."""
+    breaker = CircuitBreaker(max_retries=req.max_retries, timeout_sec=5.0, fallback_action="escalate_to_human")
+
+    @breaker
+    def failure_handler(state: dict) -> dict:
+        return {**state, "status": "retry_handled", "retry_count": state.get("retry_count", 0) + 1}
+
+    state = {"session_id": f"sim_{time.time_ns()}", "retry_count": 0}
+    events = [{"type": "info", "text": f"AGENT DISPATCH: Simulating {req.fail_count} consecutive failures (ceiling={req.max_retries})"}]
+
+    tripped_at = None
+    for attempt in range(1, req.fail_count + 1):
+        state = failure_handler(state)
+        if state.get("status") == "TERMINATED_BY_GUARDRAIL":
+            tripped_at = attempt
+            events.append({"type": "success", "text": f"CIRCUIT BREAKER TRIPPED at attempt {attempt}: {state['error']}"})
