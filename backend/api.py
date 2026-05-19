@@ -173,3 +173,11 @@ def report():
 
 
 # Serve the static frontend (index.html, css/, js/, assets/) at the root.
+app.mount("/css", StaticFiles(directory=os.path.join(ROOT_DIR, "css")), name="css")
+app.mount("/js", StaticFiles(directory=os.path.join(ROOT_DIR, "js")), name="js")
+app.mount("/assets", StaticFiles(directory=os.path.join(ROOT_DIR, "assets")), name="assets")
+
+
+@app.get("/")
+def index():
+    return FileResponse(os.path.join(ROOT_DIR, "index.html"))
