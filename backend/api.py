@@ -93,3 +93,43 @@ def simulate_deadlock(req: DeadlockRequest):
         if state.get("status") == "TERMINATED_BY_GUARDRAIL":
             tripped_at = attempt
             events.append({"type": "success", "text": f"CIRCUIT BREAKER TRIPPED at attempt {attempt}: {state['error']}"})
+            break
+        events.append({"type": "vuln", "text": f"ROUND {attempt:02d}: retry handled, no convergence yet"})
+
+    if tripped_at is None:
+        events.append({"type": "info", "text": "Circuit breaker did not trip within fail_count attempts."})
+
+    return {"tripped": tripped_at is not None, "tripped_at_attempt": tripped_at, "final_state": state, "events": events}
+
+
+@app.post("/api/simulate/privilege")
+def simulate_privilege(req: PrivilegeRequest):
+    """Runs a requested action through the real HardwarePermissionCeiling guardrail."""
+    ceiling = HardwarePermissionCeiling(max_financial_limit=50000.0, require_2fa=True)
+
+    @ceiling
+    def execute(trade_params: dict) -> dict:
+        return {"status": "executed", **trade_params}
+
+    events = [{"type": "info", "text": f"NODE REQUEST: tool='{req.tool}' amount=${req.amount:,.2f}"}]
+
+    try:
+        result = execute({"amount": req.amount, "tool": req.tool})
+        events.append({"type": "success", "text": "CAPABILITY CHECK PASSED: within least-privilege ceiling."})
+        return {"blocked": False, "result": result, "events": events}
+    except SecurityViolationError as exc:
+        events.append({"type": "vuln", "text": f"EXPOSURE: {exc}"})
+        events.append({"type": "success", "text": "PATCH DEPLOYED: request denied by capability filter."})
+        return {"blocked": True, "result": None, "events": events}
+
+
+@app.post("/api/analyze")
+def analyze(workflow: dict | None = None):
+    """Runs the real topology analyzer from agent_trace_engine.py."""
+    backend = AgentTraceBackend(workflow_data=workflow)
+    backend.analyze_reachability()
+
+    _last_analysis["vulnerabilities"] = backend.vulnerabilities
+    _last_analysis["timestamp"] = datetime.now(timezone.utc).isoformat()
+
+    return {
