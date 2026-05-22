@@ -58,3 +58,23 @@ class TaintBoundaryIsolation:
     Wraps untrusted user input channels in cryptographically isolated XML nonce
     delimiters and strips indirect prompt injection tokens before forwarding.
     """
+    INJECTION_PATTERNS = [
+        re.compile(r"ignore\s+(all\s+)?previous\s+instructions", re.IGNORECASE),
+        re.compile(r"system\s*:\s*override", re.IGNORECASE),
+        re.compile(r"disregard\s+prior\s+rules", re.IGNORECASE),
+        re.compile(r"<script.*?>.*?</script>", re.IGNORECASE)
+    ]
+
+    def __init__(self, strict_mode: bool = True, nonce: str = "AGENT_TRACE_SEC_BOUND"):
+        self.strict_mode = strict_mode
+        self.nonce = nonce
+
+    def __call__(self, func: Callable) -> Callable:
+        @functools.wraps(func)
+        def wrapper(raw_input: Any, *args, **kwargs) -> Any:
+            if isinstance(raw_input, str):
+                # 1. Pattern scan for injection payloads
+                for pat in self.INJECTION_PATTERNS:
+                    if pat.search(raw_input):
+                        print(f"[AGENT-TRACE BLOCKED] Detected prompt injection pattern: {pat.pattern}")
+                        if self.strict_mode:
