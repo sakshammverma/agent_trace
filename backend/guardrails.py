@@ -97,3 +97,14 @@ class HardwarePermissionCeiling:
     def __init__(self, max_financial_limit: float = 50000.0, require_2fa: bool = True):
         self.max_financial_limit = max_financial_limit
         self.require_2fa = require_2fa
+
+    def __call__(self, func: Callable) -> Callable:
+        @functools.wraps(func)
+        def wrapper(trade_params: dict, *args, **kwargs) -> dict:
+            dollar_amount = trade_params.get("amount", 0.0)
+            if dollar_amount > self.max_financial_limit:
+                print(f"[AGENT-TRACE BLOCKED] Trade order (${dollar_amount:,.2f}) exceeds hard ceiling (${self.max_financial_limit:,.2f})!")
+                raise SecurityViolationError(f"Capped capital allocation violation: ${dollar_amount:,.2f} > limit.")
+            
+            return func(trade_params, *args, **kwargs)
+        return wrapper
