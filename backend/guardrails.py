@@ -78,3 +78,22 @@ class TaintBoundaryIsolation:
                     if pat.search(raw_input):
                         print(f"[AGENT-TRACE BLOCKED] Detected prompt injection pattern: {pat.pattern}")
                         if self.strict_mode:
+                            raise SecurityViolationError(f"Prompt injection payload intercepted by AGENT-TRACE Boundary.")
+
+                # 2. Cryptographic XML Nonce Delimiter Isolation
+                sanitized = html.escape(raw_input)
+                isolated_payload = f"<{self.nonce}>\n{sanitized}\n</{self.nonce}>"
+                return func(isolated_payload, *args, **kwargs)
+
+            return func(raw_input, *args, **kwargs)
+        return wrapper
+
+
+class HardwarePermissionCeiling:
+    """
+    AST Guardrail (OWASP-LLM-08 Remediation):
+    Enforces immutable runtime dollar and tool authority boundaries.
+    """
+    def __init__(self, max_financial_limit: float = 50000.0, require_2fa: bool = True):
+        self.max_financial_limit = max_financial_limit
+        self.require_2fa = require_2fa
