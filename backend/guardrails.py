@@ -108,5 +108,3 @@ class HardwarePermissionCeiling:
             
             return func(trade_params, *args, **kwargs)
         return wrapper
-
-# Verified guardrail assertions
