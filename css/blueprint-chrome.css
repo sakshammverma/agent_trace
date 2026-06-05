@@ -1,0 +1,65 @@
+/* ==========================================================================
+   BLUEPRINT CHROME & FRAMING PRIMITIVES (derived from D:\design)
+   Perimeter hairline frames, surveyor ruler ticks, corner crop crosshairs,
+   and the universal .line separation primitive.
+   ========================================================================== */
+
+/* Persistent Viewport Framing */
+.main-deco {
+  position: fixed;
+  inset: 0.8rem;
+  pointer-events: none;
+  z-index: 9000;
+}
+
+.main-deco-frame {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--content--border);
+}
+
+/* Surveyor Ruler Tick Marks around all four viewport edges */
+.ruler-ticks-h {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 6px;
+  opacity: 0.64;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--content--border) 0px,
+    var(--content--border) 1px,
+    transparent 1px,
+    transparent 8px,
+    var(--content--border) 8px,
+    var(--content--border) 9px,
+    transparent 9px,
+    transparent 16px
+  );
+}
+
+.ruler-ticks-h.top {
+  top: 1px;
+}
+
+.ruler-ticks-h.bottom {
+  bottom: 1px;
+}
+
+.ruler-ticks-v {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  opacity: 0.64;
+  background-image: repeating-linear-gradient(
+    180deg,
+    var(--content--border) 0px,
+    var(--content--border) 1px,
+    transparent 1px,
+    transparent 8px,
+    var(--content--border) 8px,
+    var(--content--border) 9px,
+    transparent 9px,
+    transparent 16px
+  );
