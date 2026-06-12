@@ -238,3 +238,429 @@
   font-weight: 600;
   color: var(--content--terriary);
   text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.marquee-sep {
+  color: var(--content--brand);
+  font-size: 1.4rem;
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* --------------------------------------------------------------------------
+   4. SECTIONS & 12-COLUMN GRID SYSTEM
+   -------------------------------------------------------------------------- */
+.section {
+  width: 100%;
+  position: relative;
+}
+
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: 2rem;
+  row-gap: 0;
+  width: 100%;
+}
+
+.col-12 { grid-column: span 12; }
+.col-8 { grid-column: span 8; }
+.col-7 { grid-column: span 7; }
+.col-6 { grid-column: span 6; }
+.col-5 { grid-column: span 5; }
+.col-4 { grid-column: span 4; }
+.col-3 { grid-column: span 3; }
+
+@media (max-width: 991px) {
+  .col-8, .col-7, .col-6, .col-5, .col-4 {
+    grid-column: span 12;
+  }
+}
+
+/* Hero Section */
+.hero-section {
+  padding-top: 6.4rem;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--content--border);
+}
+
+.hero-schematic-wrap {
+  width: 100%;
+  min-height: 48rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 4rem 2rem;
+}
+
+.hero-bottom-bar {
+  display: grid;
+  grid-template-columns: 7fr 3.5fr 1.5fr;
+  align-items: stretch;
+  border-top: 1px solid var(--content--border);
+}
+
+@media (max-width: 991px) {
+  .hero-bottom-bar {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hero-title-cell {
+  padding: 3.2rem;
+  border-right: 1px solid var(--content--border);
+}
+
+.hero-copy-cell {
+  padding: 3.2rem;
+  border-right: 1px solid var(--content--border);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-cta-cell {
+  padding: 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --------------------------------------------------------------------------
+   5. INTERACTIVE BLUEPRINT MAP & VIOLATION INSPECTION
+   -------------------------------------------------------------------------- */
+.map-section {
+  position: relative;
+  background: var(--content--paper);
+  border-bottom: 1px solid var(--content--border);
+  padding: 4rem 0;
+}
+
+.map-header {
+  padding: 2.4rem 3.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--content--border);
+}
+
+.map-viewport {
+  position: relative;
+  width: 100%;
+  height: 64rem;
+  background: rgba(40, 40, 40, 0.015);
+  overflow: hidden;
+}
+
+.blueprint-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Clickable Violation Markers */
+.violation-marker {
+  position: absolute;
+  width: 2.8rem;
+  height: 2.8rem;
+  background: var(--content--brand);
+  color: var(--content--white);
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 20;
+  border: 1px solid #ffffff;
+}
+
+.violation-marker::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border: 1px dashed var(--content--brand);
+  opacity: 0.6;
+  animation: rotate-box 8s linear infinite;
+}
+
+@keyframes rotate-box {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.violation-marker:hover,
+.violation-marker.active {
+  background: var(--content--primary);
+  transform: translate(-50%, -50%) scale(1.15);
+  box-shadow: 0 4px 12px rgba(250, 54, 0, 0.35);
+}
+
+.violation-marker.resolved {
+  background: #1b873f;
+  border-color: #ffffff;
+}
+.violation-marker.resolved::after {
+  border-color: #1b873f;
+}
+
+/* Violation Tooltip Card */
+.violation-card {
+  position: absolute;
+  width: 44rem;
+  max-width: 92vw;
+  background: var(--content--paper);
+  border: 1px solid var(--content--brand);
+  padding: 2.2rem;
+  z-index: 50;
+  box-shadow: 0 1.2rem 0 -0.4rem rgba(40, 40, 40, 0.2);
+  display: none;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.violation-card.show {
+  display: flex;
+  animation: card-pop 0.25s ease-out forwards;
+}
+
+@keyframes card-pop {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.violation-card-tag {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--content--brand);
+  letter-spacing: 0.05em;
+}
+
+.violation-card-title {
+  font-family: var(--font-display);
+  font-size: 2.0rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--content--primary);
+  line-height: 1.15;
+}
+
+.violation-card-desc {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  line-height: 1.4;
+  color: var(--content--terriary);
+}
+
+.violation-card-patch {
+  background: rgba(40, 40, 40, 0.04);
+  padding: 1rem;
+  border-left: 2px solid var(--content--brand);
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  color: var(--content--primary);
+}
+
+/* Bottom HUD Prompt */
+.map-hud-prompt {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  background: var(--content--paper);
+  border: 1px solid var(--content--primary);
+  z-index: 30;
+}
+
+.map-hud-header {
+  background: var(--content--primary);
+  color: var(--content--white);
+  padding: 0.6rem 1.2rem;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.map-hud-body {
+  padding: 0.8rem 1.2rem;
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  color: var(--content--brand);
+}
+
+/* --------------------------------------------------------------------------
+   6. INTERACTIVE RED-TEAM ATTACK SANDBOX
+   -------------------------------------------------------------------------- */
+.terminal-card {
+  background: #181818;
+  color: #d8d8d4;
+  font-family: var(--font-mono);
+  border: 1px solid var(--content--primary);
+  padding: 2.4rem;
+  box-shadow: var(--hard-shadow);
+}
+
+.terminal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333333;
+  padding-bottom: 1.2rem;
+  margin-bottom: 1.6rem;
+}
+
+.terminal-status-dots {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.terminal-dot {
+  width: 8px;
+  height: 8px;
+  background: #444;
+}
+
+.terminal-dot.active {
+  background: var(--content--brand);
+}
+
+.terminal-logs {
+  height: 22rem;
+  overflow-y: auto;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  padding-right: 1rem;
+}
+
+.terminal-line {
+  margin-bottom: 0.4rem;
+}
+
+.terminal-line .t-time {
+  color: #666666;
+  margin-right: 0.8rem;
+}
+
+.terminal-line .t-vuln {
+  color: var(--content--brand);
+  font-weight: 700;
+}
+
+.terminal-line .t-success {
+  color: #2ed573;
+}
+
+.terminal-line .t-info {
+  color: #70a1ff;
+}
+
+/* --------------------------------------------------------------------------
+   7. BENCHMARK KPI METRICS
+   -------------------------------------------------------------------------- */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--content--border);
+  border-bottom: 1px solid var(--content--border);
+}
+
+@media (max-width: 991px) {
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 480px) {
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.kpi-cell {
+  padding: 3.2rem 2.4rem;
+  border-right: 1px solid var(--content--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.kpi-cell:last-child {
+  border-right: none;
+}
+
+.kpi-number {
+  font-family: var(--font-display);
+  font-size: 4.8rem;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--content--primary);
+}
+
+.kpi-number.brand {
+  color: var(--content--brand);
+}
+
+.kpi-label {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  color: var(--content--terriary);
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   8. PROJECT METADATA DRAWER (SETTINGS)
+   -------------------------------------------------------------------------- */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.drawer-overlay.open {
+  display: flex;
+}
+
+.drawer-panel {
+  width: 42rem;
+  max-width: 90vw;
+  height: 100vh;
+  background: var(--content--paper);
+  background-image: url('../assets/bg.svg');
+  border-left: 1px solid var(--content--primary);
+  padding: 3.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  box-shadow: -1rem 0 3rem rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+}
+
+.drawer-input {
+  width: 100%;
+  padding: 1.2rem;
+  background: #ffffff;
+  border: 1px solid var(--content--border);
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  color: var(--content--primary);
+  outline: none;
+}
+
+.drawer-input:focus {
+  border-color: var(--content--brand);
+}
