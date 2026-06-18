@@ -98,3 +98,83 @@ const TOPOLOGY_LAYOUTS = {
       k8s_deployer: { x: 820, y: 400, color: "#fa3600" }
     },
     tracks: [
+      "M 270,330 L 420,210 L 740,190 L 1040,230",
+      "M 740,190 L 820,440",
+      "M 1040,230 Q 900,310 740,210"
+    ]
+  },
+  crewai_finance: {
+    spanInfo: "FINANCIAL AGENT CLUSTER LATENCY: 85MS // EXECUTION GATE: SEC Compliant",
+    positions: {
+      rss_scraper: { x: 140, y: 300, color: "#fa3600" },
+      sentiment: { x: 420, y: 180, color: "#b3b3af" },
+      quant_risk: { x: 740, y: 160, color: "#b3b3af" },
+      strategy: { x: 760, y: 380, color: "#fa3600" },
+      broker_api: { x: 1080, y: 380, color: "#fa3600" }
+    },
+    tracks: [
+      "M 270,350 L 420,230 L 740,210 L 760,430 L 1080,430",
+      "M 420,230 L 760,430"
+    ]
+  }
+};
+
+// Maps the backend's patch_type to a real guardrail decorator + snippet
+// (mirrors the classes actually defined in backend/guardrails.py).
+const PATCH_TYPE_INFO = {
+  TaintBoundaryIsolation: {
+    codeFor: (nodeId) => `@TaintBoundaryIsolation(strict_mode=True, nonce="AGENT_TRACE_NONCE_984")
+def guarded_${nodeId}_ingress(raw_input: str) -> str:
+    """Sanitizes user input and neutralizes prompt injection payloads."""
+    return raw_input`
+  },
+  CircuitBreaker: {
+    codeFor: (nodeId) => `@CircuitBreaker(max_retries=3, timeout_sec=5.0, fallback_action="escalate_to_human")
+def guarded_${nodeId}_handler(state: dict) -> dict:
+    """Halts execution after repeated failures, breaking the cycle."""
+    return execute_node(state)`
+  },
+  HardwarePermissionCeiling: {
+    codeFor: (nodeId) => `@HardwarePermissionCeiling(max_financial_limit=50000.0, require_2fa=True)
+def guarded_${nodeId}_dispatcher(tool_call: dict) -> dict:
+    """Blocks unverified tool/DB calls exceeding the authorized ceiling."""
+    return execute_tool(tool_call)`
+  }
+};
+
+class BlueprintInspector {
+  constructor() {
+    this.currentTopologyKey = 'enterprise';
+    this.currentTopology = null;
+    this.activeMarker = null;
+    this.resolvedCount = 0;
+    this.totalVulns = 0;
+    this.init();
+  }
+
+  init() {
+    this.bindHUDCoordinates();
+    this.bindPatchButtons();
+    this.bindIngestionControls();
+    this.loadPreset('enterprise');
+  }
+
+  /** Loads a built-in preset: draws its fixed layout immediately, then
+   *  requests real vulnerability findings from POST /api/analyze. */
+  async loadPreset(key) {
+    const graph = TOPOLOGY_GRAPHS[key];
+    const layout = TOPOLOGY_LAYOUTS[key];
+    if (!graph || !layout) return;
+
+    this.currentTopologyKey = key;
+
+    const nodes = graph.nodes.map(n => ({
+      id: n.id,
+      name: n.name,
+      role: n.role,
+      ...layout.positions[n.id]
+    }));
+
+    this.setStatus(`ANALYZING TOPOLOGY '${graph.name}' VIA BACKEND...`);
+    let vulnerabilities = [];
+    try {
