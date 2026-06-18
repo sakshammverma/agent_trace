@@ -518,3 +518,93 @@ class BlueprintInspector {
           if (dlBtn) dlBtn.style.display = 'block';
 
           const counterEl = document.getElementById('taint-counter');
+          if (counterEl) {
+            const remaining = this.totalVulns - this.resolvedCount;
+            counterEl.textContent = `ACTIVE_VULNS: ${remaining} / ${this.totalVulns}`;
+          }
+
+          const hudPrompt = document.getElementById('map-hud-status');
+          if (hudPrompt) {
+            hudPrompt.textContent = `PATCH INJECTED: [${this.currentTopology.vulns[vid].id}] GUARDRAIL VERIFIED IN BACKEND`;
+          }
+        }
+      });
+    }
+  }
+
+  bindHUDCoordinates() {
+    const viewport = document.querySelector('.map-viewport');
+    const xCoord = document.getElementById('coord-x');
+    const yCoord = document.getElementById('coord-y');
+    const headCoordX = document.getElementById('head-coord-x');
+    const headCoordY = document.getElementById('head-coord-y');
+
+    if (viewport) {
+      viewport.addEventListener('mousemove', (e) => {
+        const rect = viewport.getBoundingClientRect();
+        const x = Math.round(e.clientX - rect.left);
+        const y = Math.round(e.clientY - rect.top);
+
+        if (xCoord) xCoord.textContent = x.toString().padStart(4, '0');
+        if (yCoord) yCoord.textContent = y.toString().padStart(4, '0');
+        if (headCoordX) headCoordX.textContent = x.toString().padStart(4, '0');
+        if (headCoordY) headCoordY.textContent = y.toString().padStart(4, '0');
+      });
+    }
+  }
+
+  bindIngestionControls() {
+    // Open/Close Ingestion Modal
+    const openBtn = document.getElementById('btn-open-ingest-modal');
+    const closeBtn = document.getElementById('btn-close-ingest-modal');
+    const modal = document.getElementById('ingest-modal');
+    const runBtn = document.getElementById('btn-run-custom-ingest');
+
+    if (openBtn && modal) {
+      openBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        modal.classList.add('open');
+      });
+    }
+
+    if (closeBtn && modal) {
+      closeBtn.addEventListener('click', () => {
+        modal.classList.remove('open');
+      });
+    }
+
+    // Preset buttons
+    document.querySelectorAll('.btn-preset-pick').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const presetKey = btn.getAttribute('data-preset');
+        if (presetKey && TOPOLOGY_GRAPHS[presetKey]) {
+          this.loadPreset(presetKey);
+          modal.classList.remove('open');
+        }
+      });
+    });
+
+    // Custom Ingestion Runner
+    if (runBtn) {
+      runBtn.addEventListener('click', async () => {
+        const inputArea = document.getElementById('custom-dag-json');
+        if (!inputArea) return;
+
+        try {
+          const rawText = inputArea.value.trim();
+          if (!rawText) {
+            alert("Please paste your JSON or Python DAG configuration into the textarea.");
+            return;
+          }
+
+          let parsed = null;
+          try {
+            parsed = JSON.parse(rawText);
+          } catch (jsonErr) {
+            // Fallback for Python dictionaries or relaxed JSON (single quotes, True/False/None, trailing commas)
+            try {
+              const sanitized = rawText
+                .replace(/'/g, '"')
+                .replace(/\bTrue\b/g, 'true')
+                .replace(/\bFalse\b/g, 'false')
+                .replace(/\bNone\b/g, 'null')
