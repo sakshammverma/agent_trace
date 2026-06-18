@@ -338,3 +338,93 @@ class BlueprintInspector {
         ${nodesHtml}
         <path id="trace-path" d="" stroke="#fa3600" stroke-width="3.5" fill="none"/>
         <path id="trace-path-green" d="" stroke="#1b873f" stroke-width="3" fill="none" stroke-dasharray="4 2"/>
+      `;
+    }
+
+    // 2. Render Markers into Viewport
+    // Remove existing markers
+    viewport.querySelectorAll('.violation-marker').forEach(m => m.remove());
+
+    topo.markers.forEach(m => {
+      const markerEl = document.createElement('div');
+      markerEl.className = 'violation-marker';
+      markerEl.setAttribute('data-vid', m.vid);
+      markerEl.style.top = m.top;
+      markerEl.style.left = m.left;
+      markerEl.textContent = m.vid;
+      viewport.appendChild(markerEl);
+    });
+
+    // Re-bind markers
+    this.bindMarkers();
+    this.deselect();
+  }
+
+  bindMarkers() {
+    const markers = document.querySelectorAll('.violation-marker');
+    markers.forEach(marker => {
+      marker.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const vid = marker.getAttribute('data-vid');
+        this.selectVulnerability(vid, marker);
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#violation-detail-card') && !e.target.closest('.violation-marker')) {
+        this.deselect();
+      }
+    });
+  }
+
+  selectVulnerability(vid, markerEl) {
+    const data = this.currentTopology.vulns[vid];
+    if (!data) return;
+
+    this.activeMarker = vid;
+    document.querySelectorAll('.violation-marker').forEach(m => m.classList.remove('active'));
+    markerEl.classList.add('active');
+
+    const tracePath = document.getElementById('trace-path');
+    const tracePathGreen = document.getElementById('trace-path-green');
+
+    if (markerEl.classList.contains('resolved')) {
+      if (tracePath) tracePath.setAttribute('d', '');
+      if (tracePathGreen) tracePathGreen.setAttribute('d', data.path);
+    } else {
+      if (tracePathGreen) tracePathGreen.setAttribute('d', '');
+      if (tracePath) {
+        tracePath.setAttribute('d', data.path);
+        tracePath.style.animation = 'none';
+        tracePath.offsetHeight;
+        tracePath.style.animation = 'dashAnim 1s linear infinite';
+      }
+    }
+
+    const card = document.getElementById('violation-detail-card');
+    if (card) {
+      document.getElementById('card-tag').textContent = `[${data.id}] // ${data.severity}`;
+      document.getElementById('card-title').textContent = data.title;
+      document.getElementById('card-desc').textContent = data.desc;
+      
+      const codeEl = document.getElementById('card-patch-code');
+      if (codeEl) codeEl.textContent = data.pythonCode || data.patch;
+
+      const targetEl = document.getElementById('card-patch-target');
+      if (targetEl) targetEl.textContent = `TARGET: ${data.targetFile || 'backend/hardened_workflow.py'}`;
+
+      const patchBtn = document.getElementById('btn-apply-patch');
+      const dlBtn = document.getElementById('btn-download-hardened');
+
+      if (markerEl.classList.contains('resolved')) {
+        patchBtn.textContent = 'PATCH INJECTED INTO BACKEND ✓';
+        patchBtn.disabled = true;
+        patchBtn.style.background = '#1b873f';
+        patchBtn.style.borderColor = '#1b873f';
+        if (dlBtn) dlBtn.style.display = 'block';
+      } else {
+        patchBtn.textContent = 'APPLY AUTOMATED PATCH →';
+        patchBtn.disabled = false;
+        patchBtn.style.background = '';
+        patchBtn.style.borderColor = '';
+        if (dlBtn) dlBtn.style.display = 'none';
