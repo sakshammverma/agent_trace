@@ -608,3 +608,93 @@ class BlueprintInspector {
                 .replace(/\bTrue\b/g, 'true')
                 .replace(/\bFalse\b/g, 'false')
                 .replace(/\bNone\b/g, 'null')
+                .replace(/,\s*([\]}])/g, '$1');
+              parsed = JSON.parse(sanitized);
+            } catch (fallbackErr) {
+              throw new Error(`JSON syntax error: ${jsonErr.message}. Please verify bracket matching and valid quotation.`);
+            }
+          }
+
+          // Support root-level OR nested workflows (parsed.workflow, parsed.graph, parsed.pipeline, etc.)
+          let graph = parsed;
+          if (parsed.workflow) graph = parsed.workflow;
+          else if (parsed.graph) graph = parsed.graph;
+          else if (parsed.pipeline) graph = parsed.pipeline;
+          else if (parsed.data) graph = parsed.data;
+
+          const rawNodes = graph.nodes || graph.vertices || graph.agents;
+          const rawEdges = graph.edges || graph.links || graph.connections;
+
+          if (Array.isArray(rawNodes) && Array.isArray(rawEdges)) {
+            const workflowName = graph.name || parsed.name || graph.id || parsed.id || "Custom Ingested Workflow";
+            runBtn.disabled = true;
+            runBtn.textContent = 'ANALYZING VIA BACKEND...';
+
+            const layout = this.layoutCustomTopology({
+              topologyName: workflowName,
+              nodes: rawNodes,
+              edges: rawEdges
+            });
+
+            let vulnerabilities = [];
+            try {
+              vulnerabilities = await this.analyzeGraph({ name: workflowName, nodes: rawNodes, edges: rawEdges });
+            } catch (err) {
+              alert(`Backend analysis failed: ${err.message}. Is uvicorn backend.api:app running? Showing the topology without findings.`);
+            }
+
+            this.currentTopologyKey = 'custom';
+            this.currentTopology = this.buildTopologyView({
+              name: workflowName,
+              spanInfo: `CUSTOM TOPOLOGY: ${workflowName.toUpperCase()} // NODES: ${layout.nodes.length} // REACHABILITY AUDITED VIA LIVE BACKEND`,
+              nodes: layout.nodes,
+              tracks: layout.tracks,
+              vulnerabilities
+            });
+            this.renderCurrentTopology();
+
+            runBtn.disabled = false;
+            runBtn.textContent = 'PARSE & RUN TOPOLOGY AUDIT →';
+            modal.classList.remove('open');
+
+            // Smooth scroll to the system map to immediately show the generated topology
+            const mapSection = document.getElementById('system-map');
+            if (mapSection) {
+              setTimeout(() => {
+                mapSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }, 150);
+            }
+          } else {
+            alert("Invalid format: The JSON must contain 'nodes' and 'edges' arrays (either at root or inside 'workflow').");
+          }
+        } catch (e) {
+          runBtn.disabled = false;
+          runBtn.textContent = 'PARSE & RUN TOPOLOGY AUDIT →';
+          alert("Error parsing workflow: " + e.message);
+        }
+      });
+    }
+  }
+
+  /** Pure layout: positions pasted nodes/edges in the viewport and draws
+   *  connection tracks. Carries no security logic — findings come from
+   *  the real backend via analyzeGraph()/buildTopologyView(). */
+  layoutCustomTopology(data) {
+    const rawNodes = data.nodes;
+    const rawEdges = data.edges;
+
+    // 1. Calculate topological depth for each node using BFS / forward reachability
+    const depthMap = {};
+    const inDegree = {};
+    rawNodes.forEach(n => {
+      depthMap[n.id] = 0;
+      inDegree[n.id] = 0;
+    });
+
+    rawEdges.forEach(e => {
+      if (inDegree[e.to] !== undefined) {
+        inDegree[e.to]++;
+      }
+    });
+
+    // Start with root nodes (inDegree === 0)
