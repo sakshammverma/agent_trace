@@ -258,3 +258,83 @@ class BlueprintInspector {
   setStatus(text) {
     const hudPrompt = document.getElementById('map-hud-status');
     if (hudPrompt) hudPrompt.textContent = text;
+  }
+
+  loadTopology(key, customData = null) {
+    if (customData) {
+      this.currentTopologyKey = 'custom';
+      this.currentTopology = customData;
+    } else if (TOPOLOGY_GRAPHS[key]) {
+      this.loadPreset(key);
+      return;
+    } else {
+      return;
+    }
+
+    this.activeMarker = null;
+    this.resolvedCount = 0;
+    this.totalVulns = Object.keys(this.currentTopology.vulns || {}).length;
+
+    this.renderCurrentTopology();
+    this.deselect();
+
+    // Update Section Title & Telemetry
+    const spanText = document.getElementById('map-span-annotation');
+    if (spanText) spanText.textContent = this.currentTopology.spanInfo;
+
+    const counterEl = document.getElementById('taint-counter');
+    if (counterEl) counterEl.textContent = `ACTIVE_VULNS: ${this.totalVulns} / ${this.totalVulns}`;
+
+    const nodeCountEl = document.getElementById('map-node-count');
+    if (nodeCountEl) nodeCountEl.textContent = `TOPOLOGY_NODES: ${this.currentTopology.nodes.length}`;
+  }
+
+  renderCurrentTopology() {
+    const topo = this.currentTopology;
+    const svg = document.querySelector('.blueprint-svg');
+    const viewport = document.querySelector('.map-viewport');
+    if (!svg || !viewport || !topo) return;
+
+    this.activeMarker = null;
+    this.resolvedCount = 0;
+    this.totalVulns = Object.keys(topo.vulns || {}).length;
+
+    const spanText = document.getElementById('map-span-annotation');
+    if (spanText) spanText.textContent = topo.spanInfo;
+
+    const counterEl = document.getElementById('taint-counter');
+    if (counterEl) counterEl.textContent = `ACTIVE_VULNS: ${this.totalVulns} / ${this.totalVulns}`;
+
+    const nodeCountEl = document.getElementById('map-node-count');
+    if (nodeCountEl) nodeCountEl.textContent = `TOPOLOGY_NODES: ${topo.nodes.length}`;
+
+    // 1. Render Tracks and Nodes into SVG
+    let tracksHtml = '';
+    topo.tracks.forEach(d => {
+      tracksHtml += `<path d="${d}" stroke="#b3b3af" stroke-width="2" stroke-opacity="0.6"/>`;
+    });
+
+    let nodesHtml = '';
+    topo.nodes.forEach(n => {
+      const color = n.color || '#282828';
+      nodesHtml += `
+        <g transform="translate(${n.x}, ${n.y})">
+          <rect width="170" height="95" fill="#f5f5ef" stroke="#282828" stroke-width="1.5"/>
+          <rect x="0" y="0" width="170" height="22" fill="#282828"/>
+          <text x="10" y="15" fill="#ffffff" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700">${n.name}</text>
+          <text x="10" y="44" fill="#282828" font-family="'JetBrains Mono', monospace" font-size="10">${n.role || n.sub || ''}</text>
+          <text x="10" y="62" fill="#626260" font-family="'JetBrains Mono', monospace" font-size="9">${n.port || n.id}</text>
+          <text x="10" y="80" fill="${color}" font-family="'JetBrains Mono', monospace" font-size="9">${n.extra || 'NODE ID: ' + n.id}</text>
+          <rect x="152" y="6" width="8" height="8" fill="${color}"/>
+        </g>
+      `;
+    });
+
+    // Update dynamic elements in SVG
+    const dynamicGroup = document.getElementById('svg-dynamic-elements');
+    if (dynamicGroup) {
+      dynamicGroup.innerHTML = `
+        ${tracksHtml}
+        ${nodesHtml}
+        <path id="trace-path" d="" stroke="#fa3600" stroke-width="3.5" fill="none"/>
+        <path id="trace-path-green" d="" stroke="#1b873f" stroke-width="3" fill="none" stroke-dasharray="4 2"/>
