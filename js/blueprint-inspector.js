@@ -698,3 +698,103 @@ class BlueprintInspector {
     });
 
     // Start with root nodes (inDegree === 0)
+    const queue = [];
+    rawNodes.forEach(n => {
+      if (inDegree[n.id] === 0) {
+        queue.push(n.id);
+        depthMap[n.id] = 0;
+      }
+    });
+
+    // Fallback if graph has cycles or no inDegree 0
+    if (queue.length === 0 && rawNodes.length > 0) {
+      queue.push(rawNodes[0].id);
+    }
+
+    while (queue.length > 0) {
+      const currId = queue.shift();
+      const currDepth = depthMap[currId];
+      rawEdges.filter(e => e.from === currId).forEach(e => {
+        if (depthMap[e.to] !== undefined) {
+          if (depthMap[e.to] < currDepth + 1) {
+            depthMap[e.to] = currDepth + 1;
+            queue.push(e.to);
+          }
+        }
+      });
+    }
+
+    // Group nodes by depth column
+    const columns = {};
+    let maxDepth = 0;
+    rawNodes.forEach((n, idx) => {
+      const d = depthMap[n.id] !== undefined ? depthMap[n.id] : (idx % 5);
+      if (d > maxDepth) maxDepth = d;
+      if (!columns[d]) columns[d] = [];
+      columns[d].push(n);
+    });
+
+    // 2. Position nodes cleanly in architectural viewport
+    const nodes = [];
+    const totalCols = maxDepth + 1;
+    const colWidth = Math.min(180, Math.floor(1150 / Math.max(totalCols, 1)));
+    const nodeWidth = Math.min(150, Math.max(120, colWidth - 25));
+    const nodeHeight = 85;
+
+    rawNodes.forEach((n) => {
+      const d = depthMap[n.id] || 0;
+      const colNodes = columns[d] || [n];
+      const rowIdx = colNodes.indexOf(n);
+      const totalInCol = colNodes.length;
+
+      const posX = 110 + (d * colWidth);
+      let posY = 280;
+      if (totalInCol === 2) {
+        posY = rowIdx === 0 ? 170 : 390;
+      } else if (totalInCol === 3) {
+        posY = 120 + (rowIdx * 140);
+      } else if (totalInCol > 3) {
+        posY = 100 + (rowIdx * (480 / totalInCol));
+      }
+
+      nodes.push({
+        id: n.id,
+        name: n.name ? n.name.toUpperCase() : n.id.toUpperCase(),
+        sub: n.type ? `TYPE: ${n.type.toUpperCase()}` : (n.role || "Task Agent"),
+        port: n.config?.action ? `ACT: ${n.config.action}` : (n.channel || "State Edge"),
+        extra: "REACHABLE",
+        x: Math.round(posX),
+        y: Math.round(posY),
+        width: nodeWidth,
+        height: nodeHeight,
+        color: (n.type === 'trigger' || n.type === 'input') ? "#fa3600" : ((n.type === 'output' || n.id === 'end') ? "#1b873f" : "#282828")
+      });
+    });
+
+    // 3. Generate connection tracks between nodes (right edge to left edge)
+    const tracks = [];
+    rawEdges.forEach(e => {
+      const n1 = nodes.find(n => n.id === e.from);
+      const n2 = nodes.find(n => n.id === e.to);
+      if (n1 && n2) {
+        const x1 = n1.x + n1.width;
+        const y1 = n1.y + Math.round(n1.height / 2);
+        const x2 = n2.x;
+        const y2 = n2.y + Math.round(n2.height / 2);
+        
+        if (Math.abs(y1 - y2) < 20) {
+          tracks.push(`M ${x1},${y1} L ${x2},${y2}`);
+        } else {
+          const midX = Math.round((x1 + x2) / 2);
+          tracks.push(`M ${x1},${y1} C ${midX},${y1} ${midX},${y2} ${x2},${y2}`);
+        }
+      }
+    });
+
+    return { nodes, tracks: tracks.length ? tracks : ["M 100,280 L 1000,280"] };
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  window.blueprintInspector = new BlueprintInspector();
+});
