@@ -178,3 +178,83 @@ class BlueprintInspector {
     this.setStatus(`ANALYZING TOPOLOGY '${graph.name}' VIA BACKEND...`);
     let vulnerabilities = [];
     try {
+      vulnerabilities = await this.analyzeGraph({ name: graph.name, nodes: graph.nodes, edges: graph.edges });
+    } catch (err) {
+      this.setStatus(`BACKEND ERROR: ${err.message}. Is uvicorn backend.api:app running?`);
+    }
+
+    this.currentTopology = this.buildTopologyView({
+      name: graph.name,
+      spanInfo: layout.spanInfo,
+      nodes,
+      tracks: layout.tracks,
+      vulnerabilities
+    });
+
+    this.renderCurrentTopology();
+  }
+
+  /** Calls the real FastAPI analyzer (backend/agent_trace_engine.py) and
+   *  returns its vulnerabilities array. Throws if the backend is unreachable. */
+  async analyzeGraph(workflow) {
+    const res = await fetch('/api/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(workflow)
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    return data.vulnerabilities || [];
+  }
+
+  /** Converts a laid-out node list + real backend vulnerabilities into the
+   *  {nodes, tracks, markers, vulns} shape the renderer/selector expect. */
+  buildTopologyView({ name, spanInfo, nodes, tracks, vulnerabilities }) {
+    const nodeById = {};
+    nodes.forEach(n => { nodeById[n.id] = n; });
+
+    const markers = [];
+    const vulns = {};
+
+    vulnerabilities.forEach((v, idx) => {
+      const vid = String(idx + 1).padStart(2, '0');
+      const targetNode = nodeById[v.node] || nodes[0];
+      if (!targetNode) return;
+
+      const halfW = (targetNode.width || 170) / 2;
+      const halfH = (targetNode.height || 95) / 2;
+      const leftPct = Math.round(((targetNode.x + halfW) / 1440) * 100);
+      const topPct = Math.round(((targetNode.y + halfH) / 700) * 100);
+      markers.push({ vid, top: `${topPct}%`, left: `${leftPct}%` });
+
+      const patchInfo = PATCH_TYPE_INFO[v.patch_type];
+      const pathTrack = tracks[idx % tracks.length] || tracks[0] || 'M 100,280 L 1000,280';
+
+      vulns[vid] = {
+        id: v.id,
+        severity: v.severity,
+        title: v.title,
+        node: targetNode.name || v.node,
+        desc: v.desc,
+        pythonCode: patchInfo ? patchInfo.codeFor(v.node) : `# Patch type '${v.patch_type}' synthesized by AGENT-TRACE engine`,
+        targetFile: 'backend/hardened_workflow.py',
+        path: pathTrack,
+        markerPos: idx % 2 === 0
+          ? { top: '15%', right: '4rem', left: 'auto' }
+          : { top: '15%', left: '4rem', right: 'auto' }
+      };
+    });
+
+    return {
+      name,
+      spanInfo: spanInfo || `TOPOLOGY: ${name.toUpperCase()} // NODES: ${nodes.length} // REACHABILITY AUDITED VIA LIVE BACKEND`,
+      nodes,
+      tracks: tracks.length ? tracks : ["M 100,280 L 1000,280"],
+      markers,
+      vulns
+    };
+  }
+
+  setStatus(text) {
+    const hudPrompt = document.getElementById('map-hud-status');
+    if (hudPrompt) hudPrompt.textContent = text;
