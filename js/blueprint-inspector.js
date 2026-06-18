@@ -428,3 +428,93 @@ class BlueprintInspector {
         patchBtn.style.background = '';
         patchBtn.style.borderColor = '';
         if (dlBtn) dlBtn.style.display = 'none';
+      }
+
+      card.style.top = data.markerPos.top;
+      card.style.left = data.markerPos.left;
+      card.style.right = data.markerPos.right;
+      card.classList.add('show');
+    }
+
+    const hudPrompt = document.getElementById('map-hud-status');
+    if (hudPrompt) {
+      hudPrompt.textContent = `ANALYZING [${data.id}] : ${data.title}`;
+    }
+  }
+
+  deselect() {
+    this.activeMarker = null;
+    document.querySelectorAll('.violation-marker').forEach(m => m.classList.remove('active'));
+    const card = document.getElementById('violation-detail-card');
+    if (card) card.classList.remove('show');
+    const dlBtn = document.getElementById('btn-download-hardened');
+    if (dlBtn) dlBtn.style.display = 'none';
+
+    const tracePath = document.getElementById('trace-path');
+    if (tracePath) tracePath.setAttribute('d', '');
+    const tracePathGreen = document.getElementById('trace-path-green');
+    if (tracePathGreen) tracePathGreen.setAttribute('d', '');
+
+    const hudPrompt = document.getElementById('map-hud-status');
+    if (hudPrompt) {
+      hudPrompt.textContent = `[CLICK ON ANY AGENT VULNERABILITY PIN (01-04)]`;
+    }
+  }
+
+  bindPatchButtons() {
+    const patchBtn = document.getElementById('btn-apply-patch');
+    const copyBtn = document.getElementById('btn-copy-guardrail-code');
+    const dlBtn = document.getElementById('btn-download-hardened');
+
+    if (copyBtn) {
+      copyBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const codeText = document.getElementById('card-patch-code')?.textContent || '';
+        navigator.clipboard.writeText(codeText).then(() => {
+          const orig = copyBtn.textContent;
+          copyBtn.textContent = 'COPIED ✓';
+          copyBtn.style.color = '#1b873f';
+          setTimeout(() => {
+            copyBtn.textContent = orig;
+            copyBtn.style.color = '';
+          }, 1800);
+        });
+      });
+    }
+
+    if (dlBtn) {
+      dlBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const a = document.createElement('a');
+        a.href = 'backend/hardened_workflow.py';
+        a.download = 'hardened_workflow.py';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      });
+    }
+
+    if (patchBtn) {
+      patchBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!this.activeMarker) return;
+
+        const vid = this.activeMarker;
+        const markerEl = document.querySelector(`.violation-marker[data-vid="${vid}"]`);
+        if (markerEl && !markerEl.classList.contains('resolved')) {
+          markerEl.classList.add('resolved');
+          markerEl.textContent = '✓';
+          this.resolvedCount++;
+
+          const tracePath = document.getElementById('trace-path');
+          const tracePathGreen = document.getElementById('trace-path-green');
+          if (tracePath) tracePath.setAttribute('d', '');
+          if (tracePathGreen) tracePathGreen.setAttribute('d', this.currentTopology.vulns[vid].path);
+
+          patchBtn.textContent = 'PATCH INJECTED INTO BACKEND ✓';
+          patchBtn.disabled = true;
+          patchBtn.style.background = '#1b873f';
+          patchBtn.style.borderColor = '#1b873f';
+          if (dlBtn) dlBtn.style.display = 'block';
+
+          const counterEl = document.getElementById('taint-counter');
