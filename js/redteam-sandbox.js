@@ -73,3 +73,87 @@ class RedTeamSandbox {
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
+      return data.events;
+    }
+
+    if (scenarioKey === 'privilege') {
+      const res = await fetch('/api/simulate/privilege', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: 75000, tool: 'ToolOrchestrator' })
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      return data.events;
+    }
+
+    throw new Error(`Unknown scenario '${scenarioKey}'`);
+  }
+
+  streamEvents(events) {
+    return new Promise((resolve) => {
+      let i = 0;
+      const interval = setInterval(() => {
+        if (i < events.length) {
+          this.addLogLine(events[i].type, events[i].text);
+          i++;
+        } else {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 280);
+    });
+  }
+
+  addLogLine(type, message) {
+    if (!this.terminalEl) return;
+
+    const time = new Date().toISOString().split('T')[1].slice(0, 8);
+    const line = document.createElement('div');
+    line.className = 'terminal-line';
+
+    let tagClass = 't-info';
+    let tag = '[INFO]';
+    if (type === 'vuln') {
+      tagClass = 't-vuln';
+      tag = '[WARN]';
+    } else if (type === 'success') {
+      tagClass = 't-success';
+      tag = '[PASS]';
+    }
+
+    line.innerHTML = `<span class="t-time">${time}</span> <span class="${tagClass}">${tag}</span> ${message}`;
+    this.terminalEl.appendChild(line);
+    this.terminalEl.scrollTop = this.terminalEl.scrollHeight;
+  }
+
+  bindReportDownload() {
+    const dlBtn = document.getElementById('btn-download-report');
+    if (!dlBtn) return;
+
+    dlBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      try {
+        const res = await fetch('/api/report');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const reportContent = await res.text();
+
+        const blob = new Blob([reportContent], { type: 'text/markdown' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `AGENT_TRACE_AUDIT_REPORT_${Date.now()}.md`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } catch (err) {
+        this.addLogLine('vuln', `REPORT DOWNLOAD FAILED: ${err.message}`);
+      }
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  window.redTeamSandbox = new RedTeamSandbox();
+});
