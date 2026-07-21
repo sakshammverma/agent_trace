@@ -848,3 +848,153 @@
 
         <div class="slide-body">
           <div class="slide-col">
+            <div class="slide-card">
+              <div class="slide-card-header">CANDIDATE INFORMATION</div>
+              <div class="slide-card-title" data-config="studentName">Saksham & Team</div>
+              <div class="slide-card-desc" data-config="rollNumber">B.Tech Computer Science & Engineering</div>
+              <div class="txt-mono mono-12" data-config="collegeName">Department of Computer Science & Engineering</div>
+            </div>
+            <div class="slide-card">
+              <div class="slide-card-header">PROJECT SUPERVISION</div>
+              <div class="slide-card-title" data-config="guideName">Dr. Project Guide & Evaluation Committee</div>
+              <div class="slide-card-desc">Academic Year: <span data-config="academicYear">2026 - 2027</span></div>
+            </div>
+          </div>
+
+          <div class="slide-col">
+            <div class="slide-card" style="height: 100%; justify-content: center; background: rgba(250, 54, 0, 0.03); border-color: var(--content--brand);">
+              <div class="slide-card-header">PROJECT ABSTRACT</div>
+              <p class="slide-card-desc long-copy" style="font-size: 1.5rem; line-height: 1.6;">
+                As multi-agent autonomous architectures rapidly displace monolithic LLM applications, inter-agent vulnerabilities—specifically prompt injection cascades, tool privilege escalations, and cyclic state deadlocks—have emerged as catastrophic failure modes. 
+                <br><br>
+                <strong>AGENT-TRACE</strong> introduces a formal verification engine that maps execution topologies into mathematical directed reachability graphs, actively red-teams agent boundaries, and autonomously synthesizes deterministic AST guardrails with 98.4% detection recall.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SLIDE 2: PROBLEM STATEMENT -->
+      <div class="slide-slide">
+        <div class="slide-top">
+          <div>
+            <div class="slide-section-label">SLIDE 02 // PROBLEM STATEMENT & INDUSTRIAL MOTIVATION</div>
+            <h2 class="slide-title">THE SILENT CRISIS OF MULTI-AGENT CASCADES</h2>
+          </div>
+          <div class="hud-chip">RESEARCH MOTIVATION</div>
+        </div>
+
+        <div class="slide-body">
+          <div class="slide-col">
+            <div class="slide-card">
+              <div class="slide-card-header">[CRITICAL FLAW 01]</div>
+              <div class="slide-card-title">INDIRECT PROMPT INJECTION CASCADES</div>
+              <div class="slide-card-desc">
+                When a web scraper or reader agent ingests adversarial text, tainted instructions bypass system boundaries and propagate to downstream executive agents, causing unauthorized remote actions.
+              </div>
+            </div>
+            <div class="slide-card">
+              <div class="slide-card-header">[CRITICAL FLAW 02]</div>
+              <div class="slide-card-title">EXCESSIVE TOOL PRIVILEGE ESCALATION</div>
+              <div class="slide-card-desc">
+                Tool dispatchers frequently operate with root permissions across database and execution APIs without intermediate capability verification or human-in-the-loop safeguards.
+              </div>
+            </div>
+          </div>
+
+          <div class="slide-col">
+            <div class="slide-card">
+              <div class="slide-card-header">[CRITICAL FLAW 03]</div>
+              <div class="slide-card-title">CIRCULAR STATE DEADLOCKS</div>
+              <div class="slide-card-desc">
+                Iterative critique loops between generator and evaluator agents frequently diverge or oscillate infinitely, consuming millions of tokens without reaching monotonic convergence.
+              </div>
+            </div>
+            <div class="slide-card">
+              <div class="slide-card-header">[INDUSTRY GAP]</div>
+              <div class="slide-card-title">FAILURE OF STATIC CODE ANALYSIS</div>
+              <div class="slide-card-desc">
+                Traditional linters (Semgrep, Bandit) inspect syntax, not runtime agentic state reachability. They miss 57%+ of multi-agent cognitive vulnerabilities.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SLIDE 3: OBJECTIVES & SCOPE -->
+      <div class="slide-slide">
+        <div class="slide-top">
+          <div>
+            <div class="slide-section-label">SLIDE 03 // PROJECT OBJECTIVES & CONTRIBUTIONS</div>
+            <h2 class="slide-title">CORE OBJECTIVES OF AGENT-TRACE</h2>
+          </div>
+          <div class="hud-chip chip-brand">NOVEL CONTRIBUTIONS</div>
+        </div>
+
+        <div class="slide-body">
+          <div class="slide-col">
+            <div class="slide-card">
+              <div class="slide-card-header">OBJECTIVE 1</div>
+              <div class="slide-card-title">GRAPH-BASED TOPOLOGY EXTRACTION</div>
+              <div class="slide-card-desc">
+                Parse multi-agent frameworks (LangGraph, CrewAI, AutoGen) into formal directed state graphs $G=(V, E)$ with annotated permission vectors.
+              </div>
+            </div>
+            <div class="slide-card">
+              <div class="slide-card-header">OBJECTIVE 2</div>
+              <div class="slide-card-title">MATHEMATICAL TAINT PROPAGATION</div>
+              <div class="slide-card-desc">
+                Compute transitive reachability matrices $(I - A)^{-1}$ to identify cognitive attack paths from untrusted ingress to high-privilege tool execution points.
+              </div>
+            </div>
+          </div>
+
+          <div class="slide-col">
+            <div class="slide-card">
+              <div class="slide-card-header">OBJECTIVE 3</div>
+              <div class="slide-card-title">METAMORPHIC ADVERSARIAL RED-TEAMING</div>
+              <div class="slide-card-desc">
+                Execute automated semantic boundary fuzzing to simulate prompt hijacking and verify boundary isolation under worst-case inputs.
+              </div>
+            </div>
+            <div class="slide-card">
+              <div class="slide-card-header">OBJECTIVE 4</div>
+              <div class="slide-card-title">DETERMINISTIC AUTO-PATCH SYNTHESIS</div>
+              <div class="slide-card-desc">
+                Synthesize and inject runtime AST guardrails: token-level regex constraints, maximum recursion thresholds, and signed cryptographic approval hooks.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SLIDE 4: SYSTEM ARCHITECTURE -->
+      <div class="slide-slide">
+        <div class="slide-top">
+          <div>
+            <div class="slide-section-label">SLIDE 04 // SYSTEM ARCHITECTURE & THEORETICAL FRAMEWORK</div>
+            <h2 class="slide-title">PIPELINE ARCHITECTURE</h2>
+          </div>
+          <div class="hud-chip">HIGH LEVEL ARCHITECTURE</div>
+        </div>
+
+        <div class="slide-body">
+          <div class="slide-col" style="flex: 1.2;">
+            <div class="slide-card" style="height: 100%; justify-content: space-around;">
+              <div class="slide-card-header">END-TO-END VERIFICATION FLOW</div>
+              <div style="font-family: var(--font-mono); font-size: 1.3rem; line-height: 2;">
+                [AGENT CODE / DAG CONFIG] 
+                <br> └──► <strong style="color: var(--content--brand);">AST Parser & Graph Extractor</strong>
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; └──► <strong style="color: var(--content--primary);">Reachability Adjacency Matrix $A$</strong>
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ├──► <strong style="color: var(--content--brand);">Taint Vector Propagation Engine</strong>
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ├──► <strong style="color: var(--content--primary);">Metamorphic Adversarial Fuzzer</strong>
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; └──► <strong style="color: var(--content--brand);">Auto-Patch & Guardrail Synthesizer</strong>
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; └──► [VERIFIED DETERMINISTIC AGENT GRAPH]
+              </div>
+            </div>
+          </div>
+
+          <div class="slide-col">
