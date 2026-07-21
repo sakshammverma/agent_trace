@@ -698,3 +698,153 @@
         <label class="txt-mono mono-10 txt-orange" style="display: block; margin-bottom: 0.6rem;">PROJECT ACRONYM / SHORT TITLE</label>
         <input id="input-project-title" class="drawer-input" type="text">
       </div>
+
+      <div>
+        <label class="txt-mono mono-10 txt-orange" style="display: block; margin-bottom: 0.6rem;">PROJECT SUBTITLE / TOPIC</label>
+        <textarea id="input-project-subtitle" class="drawer-input" rows="2"></textarea>
+      </div>
+
+      <div>
+        <label class="txt-mono mono-10 txt-orange" style="display: block; margin-bottom: 0.6rem;">STUDENT NAME / TEAM MEMBERS</label>
+        <input id="input-student-name" class="drawer-input" type="text">
+      </div>
+
+      <div>
+        <label class="txt-mono mono-10 txt-orange" style="display: block; margin-bottom: 0.6rem;">ROLL NUMBER / PRN / CLASS</label>
+        <input id="input-roll-number" class="drawer-input" type="text">
+      </div>
+
+      <div>
+        <label class="txt-mono mono-10 txt-orange" style="display: block; margin-bottom: 0.6rem;">COLLEGE / DEPARTMENT</label>
+        <input id="input-college-name" class="drawer-input" type="text">
+      </div>
+
+      <div>
+        <label class="txt-mono mono-10 txt-orange" style="display: block; margin-bottom: 0.6rem;">PROJECT GUIDE / SUPERVISOR</label>
+        <input id="input-guide-name" class="drawer-input" type="text">
+      </div>
+
+      <div>
+        <label class="txt-mono mono-10 txt-orange" style="display: block; margin-bottom: 0.6rem;">ACADEMIC YEAR</label>
+        <input id="input-academic-year" class="drawer-input" type="text">
+      </div>
+
+      <div style="display: flex; gap: 1.2rem; margin-top: 1rem;">
+        <button id="save-settings-btn" class="btn-standalone btn-brand-solid" style="flex: 1;">
+          SAVE CHANGES ✓
+        </button>
+        <button id="reset-settings-btn" class="btn-standalone" style="border-color: var(--content--border);">
+          RESET
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MULTI-AGENT TOPOLOGY INGESTION MODAL
+       Allows evaluators/users to switch agent swarms or paste custom DAG topologies
+       ======================================================================== -->
+  <div id="ingest-modal" class="drawer-overlay">
+    <div class="drawer-panel" style="width: 54rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--content--border); padding-bottom: 1.6rem;">
+        <div>
+          <span class="txt-mono mono-10 txt-orange">SYSTEM INGESTION ENGINE</span>
+          <h3 class="heading h4" style="margin-top: 0.4rem;">INGEST MULTI-AGENT SYSTEM</h3>
+        </div>
+        <button id="btn-close-ingest-modal" style="background: none; border: none; font-size: 2.4rem; cursor: pointer;">×</button>
+      </div>
+
+      <p class="body-text" style="font-size: 1.35rem;">
+        Select an industry framework preset or paste your own custom LangGraph / CrewAI / JSON DAG topology to generate a live blueprint and run security vulnerability audits.
+      </p>
+
+      <!-- Presets -->
+      <div>
+        <label class="txt-mono mono-10 txt-orange" style="display: block; margin-bottom: 0.8rem;">1. CHOOSE MULTI-AGENT PRESET:</label>
+        <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+          <button class="btn-standalone btn-preset-pick" data-preset="enterprise" style="text-align: left; justify-content: flex-start; padding: 1.2rem;">
+            <div>
+              <strong>01 // ENTERPRISE MULTI-AGENT CLUSTER</strong>
+              <div class="txt-mono mono-10 txt-dim" style="margin-top: 0.2rem;">6 Nodes: Gateway, Router, Synthesizer, Critic, Tool Exec, DB Bridge</div>
+            </div>
+          </button>
+          <button class="btn-standalone btn-preset-pick" data-preset="langgraph_dev" style="text-align: left; justify-content: flex-start; padding: 1.2rem;">
+            <div>
+              <strong>02 // LANGGRAPH SOFTWARE DEV SWARM</strong>
+              <div class="txt-mono mono-10 txt-dim" style="margin-top: 0.2rem;">5 Nodes: Jira Ingest, Architect, Coder Agent, QA Tester, K8s Deployer</div>
+            </div>
+          </button>
+          <button class="btn-standalone btn-preset-pick" data-preset="crewai_finance" style="text-align: left; justify-content: flex-start; padding: 1.2rem;">
+            <div>
+              <strong>03 // CREWAI FINANCIAL TRADING NETWORK</strong>
+              <div class="txt-mono mono-10 txt-dim" style="margin-top: 0.2rem;">5 Nodes: RSS Scraper, Sentiment, Quant Risk, Strategy Router, Broker API</div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Custom Ingestion -->
+      <div style="margin-top: 1rem;">
+        <label class="txt-mono mono-10 txt-orange" style="display: block; margin-bottom: 0.8rem;">2. OR PASTE CUSTOM WORKFLOW (JSON / PYTHON DAG):</label>
+        <textarea id="custom-dag-json" class="drawer-input" rows="8" style="font-family: var(--font-mono); font-size: 1.15rem; line-height: 1.4;">{
+  "topologyName": "Autonomous Cloud Ops Swarm",
+  "nodes": [
+    { "id": "log_ingest", "name": "Log Ingest", "role": "Stream Parser" },
+    { "id": "triage_agent", "name": "Incident Triage", "role": "Root Cause Reasoner" },
+    { "id": "remediation_agent", "name": "Auto-Healer", "role": "Bash & Cloud Tool" },
+    { "id": "slack_notifier", "name": "Slack Dispatcher", "role": "Alert Bot" }
+  ],
+  "edges": [
+    { "from": "log_ingest", "to": "triage_agent" },
+    { "from": "triage_agent", "to": "remediation_agent" },
+    { "from": "remediation_agent", "to": "slack_notifier" }
+  ]
+}</textarea>
+      </div>
+
+      <div style="display: flex; gap: 1.2rem; margin-top: 1rem;">
+        <button id="btn-run-custom-ingest" class="btn-standalone btn-brand-solid" style="flex: 1; padding: 1.4rem;">
+          PARSE & RUN TOPOLOGY AUDIT →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       FULL-SCREEN 8-SLIDE VIVA PRESENTATION DECK OVERLAY
+       ======================================================================== -->
+  <div class="presentation-deck">
+    <!-- Top Presentation Navigation Bar -->
+    <div class="presentation-bar">
+      <div class="deck-meta">
+        <span class="slide-counter" id="deck-counter">SLIDE 01 / 08</span>
+        <span class="txt-mono mono-12" data-config="projectTitle">AGENT-TRACE</span>
+        <span class="txt-mono mono-10 txt-dim">// 4TH YEAR MINI PROJECT DEFENSE</span>
+      </div>
+
+      <div class="deck-nav-controls">
+        <button id="btn-prev-slide" class="deck-ctrl-btn">← PREV [LEFT]</button>
+        <button id="btn-next-slide" class="deck-ctrl-btn">NEXT [RIGHT] →</button>
+        <button id="btn-fullscreen-slide" class="deck-ctrl-btn">FULLSCREEN [F]</button>
+        <button id="btn-exit-presentation" class="deck-ctrl-btn exit-btn">EXIT SLIDES [ESC]</button>
+      </div>
+    </div>
+
+    <!-- Slides Viewport Container -->
+    <div class="slides-viewport">
+
+      <!-- SLIDE 1: TITLE & AUTHORS -->
+      <div class="slide-slide active-slide">
+        <div class="slide-top">
+          <div>
+            <div class="slide-section-label">SLIDE 01 // 4TH YEAR MINI PROJECT PRESENTATION</div>
+            <h2 class="slide-title" data-config="projectTitle">AGENT-TRACE</h2>
+            <div class="heading h4" style="margin-top: 1rem; color: var(--content--terriary);" data-config="projectSubtitle">
+              AUTONOMOUS MULTI-AGENT SYSTEM TOPOLOGY, VULNERABILITY & FAILURE-CASCADE BLUEPRINTER
+            </div>
+          </div>
+          <div class="hud-chip chip-brand">FINAL YEAR B.TECH DEFENSE</div>
+        </div>
+
+        <div class="slide-body">
+          <div class="slide-col">
