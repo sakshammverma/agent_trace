@@ -548,3 +548,153 @@
               <th>FALSE POSITIVE RATE</th>
               <th>ANALYSIS LATENCY</th>
               <th>AUTO-GUARDRAIL PATCH</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="highlight-row">
+              <td>AGENT-TRACE (PROPOSED PROJECT)</td>
+              <td>Topological Graph + Taint Propagation</td>
+              <td>98.4%</td>
+              <td>1.2%</td>
+              <td>140 ms</td>
+              <td>YES (DETERMINISTIC AST)</td>
+            </tr>
+            <tr>
+              <td>SEMGREP (STATIC LINTER)</td>
+              <td>Pattern Syntax Matching</td>
+              <td>42.1%</td>
+              <td>24.8%</td>
+              <td>350 ms</td>
+              <td>NO (MANUAL)</td>
+            </tr>
+            <tr>
+              <td>BANDIT (AST PYTHON LINTER)</td>
+              <td>Static AST Rule Checker</td>
+              <td>36.5%</td>
+              <td>31.2%</td>
+              <td>280 ms</td>
+              <td>NO (MANUAL)</td>
+            </tr>
+            <tr>
+              <td>LLM-AS-A-JUDGE ONLY</td>
+              <td>Zero-Shot Prompt Audit</td>
+              <td>71.3%</td>
+              <td>18.4%</td>
+              <td>2,400 ms</td>
+              <td>PARTIAL (NON-DETERMINISTIC)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 05: TECHNICAL ACCORDION (RESEARCH PILLARS & DOMAINS)
+         ====================================================================== -->
+    <section class="section" style="padding: 6.4rem 3.2rem; border-bottom: 1px solid var(--content--border);">
+      <div style="margin-bottom: 4rem;">
+        <span class="txt-mono mono-12 txt-orange">[05] RESEARCH DOMAINS</span>
+        <h2 class="heading h2" style="margin-top: 0.8rem;">MULTI-AGENT SECURITY PILLARS</h2>
+      </div>
+
+      <div class="accordion-group" style="border-top: 1px solid var(--content--border);">
+        <!-- Item 1 -->
+        <div class="accordion-item" style="border-bottom: 1px solid var(--content--border);">
+          <div class="accordion-trigger" style="padding: 2.4rem 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+            <div style="display: flex; gap: 2.4rem; align-items: center;">
+              <span class="txt-mono mono-12 txt-orange">[PILLAR 01]</span>
+              <h3 class="heading h4">FORMAL REACHABILITY MATRICES & GRAPH THEORY</h3>
+            </div>
+            <span class="accordion-icon heading h4 txt-orange">+</span>
+          </div>
+          <div class="accordion-content" style="max-height: 0; overflow: hidden; transition: max-height 0.35s ease;">
+            <p class="body-text long-copy" style="padding-bottom: 2.4rem;">
+              By formalizing agent communications as directed adjacency matrices, reachability can be solved as an algebraic fixed-point problem. If $(I - A)^{-1}_{ij} > 0$, an untrusted agent node $i$ holds a deterministic path to mutate sensitive tool node $j$. This eliminates blind spots inherent in single-prompt audits.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="accordion-item" style="border-bottom: 1px solid var(--content--border);">
+          <div class="accordion-trigger" style="padding: 2.4rem 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+            <div style="display: flex; gap: 2.4rem; align-items: center;">
+              <span class="txt-mono mono-12 txt-orange">[PILLAR 02]</span>
+              <h3 class="heading h4">INDIRECT PROMPT INJECTION & DELIMITER COLLISION</h3>
+            </div>
+            <span class="accordion-icon heading h4 txt-orange">+</span>
+          </div>
+          <div class="accordion-content" style="max-height: 0; overflow: hidden; transition: max-height 0.35s ease;">
+            <p class="body-text long-copy" style="padding-bottom: 2.4rem;">
+              Autonomous agents scraping external web data or databases are vulnerable to embedded indirect prompt injection attacks. AGENT-TRACE dynamically wraps external input streams in cryptographic delimiter boundaries, preventing instruction evasion at the semantic router layer.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="accordion-item" style="border-bottom: 1px solid var(--content--border);">
+          <div class="accordion-trigger" style="padding: 2.4rem 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+            <div style="display: flex; gap: 2.4rem; align-items: center;">
+              <span class="txt-mono mono-12 txt-orange">[PILLAR 03]</span>
+              <h3 class="heading h4">CIRCULAR STATE DEADLOCK CASCADE PREVENTION</h3>
+            </div>
+            <span class="accordion-icon heading h4 txt-orange">+</span>
+          </div>
+          <div class="accordion-content" style="max-height: 0; overflow: hidden; transition: max-height 0.35s ease;">
+            <p class="body-text long-copy" style="padding-bottom: 2.4rem;">
+              When multiple autonomous agents critique each other's outputs without monotonic convergence criteria, they trigger state oscillation loops that consume millions of API tokens and crash server memory. AGENT-TRACE injects circuit breakers and deterministic rollback states.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         ACADEMIC DEFENSE FOOTER
+         ====================================================================== -->
+    <footer style="padding: 6.4rem 3.2rem; border-top: 1px solid var(--content--border); background: rgba(40, 40, 40, 0.02);">
+      <div class="grid-12" style="margin-bottom: 4rem;">
+        <div class="col-6">
+          <div class="brand-icon" style="margin-bottom: 1.6rem;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <h3 class="heading h3" data-config="projectTitle">AGENT-TRACE</h3>
+          <p class="body-text" style="max-width: 48rem; margin-top: 0.8rem;" data-config="projectSubtitle">
+            Autonomous Multi-Agent System Topology, Vulnerability & Failure-Cascade Blueprinter
+          </p>
+          <div style="margin-top: 2rem;">
+            <button id="btn-footer-presentation" class="btn-standalone btn-brand-solid" onclick="window.presentationDeck.open(0);">
+              LAUNCH PRESENTATION [P] →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid var(--content--border); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center;">
+        <span class="txt-mono mono-10 txt-orange">
+          STATUS: ALL TOPOLOGY TESTS PASSED [0 ERRORS]
+        </span>
+      </div>
+    </footer>
+
+  </div> <!-- /.body-inner -->
+
+  <!-- ========================================================================
+       PROJECT SETTINGS DRAWER (Edit names, college, guide, titles)
+       ======================================================================== -->
+  <div id="settings-drawer" class="drawer-overlay">
+    <div class="drawer-panel">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--content--border); padding-bottom: 1.6rem;">
+        <h3 class="heading h4">PROJECT CONFIGURATION</h3>
+        <button id="close-settings-btn" style="background: none; border: none; font-size: 2.4rem; cursor: pointer;">×</button>
+      </div>
+
+      <p class="body-text" style="font-size: 1.35rem;">
+        Customize the project metadata for your presentation tomorrow. Changes are reactively applied across the website and slide deck.
+      </p>
+
+      <div>
+        <label class="txt-mono mono-10 txt-orange" style="display: block; margin-bottom: 0.6rem;">PROJECT ACRONYM / SHORT TITLE</label>
+        <input id="input-project-title" class="drawer-input" type="text">
+      </div>
