@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AGENT-TRACE // Autonomous Multi-Agent System Topology & Security Blueprinter</title>
+  <meta name="description" content="Autonomous multi-agent system topology, vulnerability and failure-cascade blueprinter. Engineered in brutalist architectural blueprint aesthetic.">
+  
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/blueprint-chrome.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/presentation-mode.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       PERSISTENT VIEWPORT FRAMING CHROME (Rulers, Crop Marks, Framing Hairlines)
+       ======================================================================== -->
+  <div class="main-deco">
+    <div class="main-deco-frame"></div>
+    <!-- Edge Ruler Ticks -->
+    <div class="ruler-ticks-h top"></div>
+    <div class="ruler-ticks-h bottom"></div>
+    <div class="ruler-ticks-v left"></div>
+    <div class="ruler-ticks-v right"></div>
+    <!-- 4 Corner '+' Crop Marks -->
+    <svg class="crop-mark top-left" viewBox="0 0 12 12"><path d="M6 0v12M0 6h12" stroke="#b3b3af" stroke-width="1.2"/></svg>
+    <svg class="crop-mark top-right" viewBox="0 0 12 12"><path d="M6 0v12M0 6h12" stroke="#b3b3af" stroke-width="1.2"/></svg>
+    <svg class="crop-mark bottom-left" viewBox="0 0 12 12"><path d="M6 0v12M0 6h12" stroke="#b3b3af" stroke-width="1.2"/></svg>
+    <svg class="crop-mark bottom-right" viewBox="0 0 12 12"><path d="M6 0v12M0 6h12" stroke="#b3b3af" stroke-width="1.2"/></svg>
+  </div>
+
+  <div class="body-inner">
+
+    <!-- ======================================================================
+         FIXED HEADER
+         ====================================================================== -->
+    <header class="header">
+      <a href="#" class="header-brand">
+        <div class="brand-icon">
+          <!-- Geometric Isometric Blueprint Block Logo -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <span class="brand-name" data-config="projectTitle">AGENT-TRACE</span>
+        <span class="brand-tag">v4.2</span>
+      </a>
+
+      <nav class="header-nav">
+        <a href="#system-map" class="btn-fill">
+          <div class="btn-fill-bg"></div>
+          <div class="btn-fill-labels">
+            <span class="label-top">01 // BLUEPRINT</span>
+            <span class="label-bot">01 // BLUEPRINT</span>
+          </div>
+        </a>
+        <a href="#architecture" class="btn-fill">
+          <div class="btn-fill-bg"></div>
+          <div class="btn-fill-labels">
+            <span class="label-top">02 // ARCHITECTURE</span>
+            <span class="label-bot">02 // ARCHITECTURE</span>
+          </div>
+        </a>
+        <a href="#sandbox" class="btn-fill">
+          <div class="btn-fill-bg"></div>
+          <div class="btn-fill-labels">
+            <span class="label-top">03 // RED-TEAM SANDBOX</span>
+            <span class="label-bot">03 // RED-TEAM SANDBOX</span>
+          </div>
+        </a>
+        <a href="#benchmarks" class="btn-fill">
+          <div class="btn-fill-bg"></div>
+          <div class="btn-fill-labels">
+            <span class="label-top">04 // BENCHMARKS</span>
+            <span class="label-bot">04 // BENCHMARKS</span>
+          </div>
+        </a>
+      </nav>
+
+      <div class="header-telemetry">
+        <span>X:<span id="head-coord-x" class="txt-orange">0714</span></span>
+        <span>Y:<span id="head-coord-y" class="txt-orange">0390</span></span>
+        <span class="line line-vertical" style="height: 1.6rem;"></span>
+        <span><span class="status-indicator"></span> SYS_CLOCK: <span id="sys-heartbeat">23:14:00</span></span>
+      </div>
+
+      <div class="header-actions">
+        <button id="open-settings-btn" class="btn-fill">
+          <div class="btn-fill-bg"></div>
+          <div class="btn-fill-labels">
+            <span class="label-top">⚙ EDIT PROJECT INFO</span>
+            <span class="label-bot">⚙ EDIT PROJECT INFO</span>
+          </div>
+        </button>
+
+        <button id="btn-open-presentation" class="btn-fill btn-brand no-border-right">
+          <div class="btn-fill-bg"></div>
+          <div class="btn-fill-labels">
+            <span class="label-top">▶ PRESENTATION MODE [P]</span>
+            <span class="label-bot">▶ PRESENTATION MODE [P]</span>
+          </div>
+          <span class="btn-arrow">→</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ======================================================================
+         HERO SECTION
+         ====================================================================== -->
+    <section class="section hero-section">
+      <div class="hero-schematic-wrap">
+        <!-- High-Detail Technical SVG Schematic -->
+        <svg viewBox="0 0 1200 460" width="100%" height="460" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width: 1100px;">
+          <!-- Blueprint Grid Background Lines -->
+          <defs>
+            <pattern id="heroGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#b3b3af" stroke-width="0.5" stroke-opacity="0.3"/>
+            </pattern>
+          </defs>
+          <rect width="1200" height="460" fill="url(#heroGrid)"/>
+
+          <!-- Dimension lines -->
+          <line x1="100" y1="40" x2="1100" y2="40" stroke="#b3b3af" stroke-width="1" stroke-dasharray="4 4"/>
+          <text x="600" y="32" fill="#626260" font-family="'JetBrains Mono', monospace" font-size="11" text-anchor="middle" letter-spacing="1">DIMENSION: MULTI-AGENT TOPOLOGY SPAN 1024-BIT STATE CHANNELS</text>
+          
+          <!-- Cross markers -->
+          <path d="M96 40h8M100 36v8 M1096 40h8M1100 36v8" stroke="#b3b3af" stroke-width="1"/>
+
+          <!-- Agent Nodes (Architectural Brutalist Blocks) -->
+          <!-- Node 1: Ingestion Gateway -->
+          <g transform="translate(120, 180)">
+            <rect width="180" height="110" fill="#f5f5ef" stroke="#282828" stroke-width="1.5"/>
+            <rect x="0" y="0" width="180" height="26" fill="#282828"/>
+            <text x="12" y="17" fill="#ffffff" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700">NODE 01: GATEWAY</text>
+            <text x="12" y="52" fill="#282828" font-family="'JetBrains Mono', monospace" font-size="11">AST Token Ingress</text>
+            <text x="12" y="70" fill="#626260" font-family="'JetBrains Mono', monospace" font-size="10">State: Streaming</text>
+            <text x="12" y="90" fill="#fa3600" font-family="'JetBrains Mono', monospace" font-size="10">TAINT PROXY: ACTIVE</text>
+            <!-- Orange accent dot -->
+            <rect x="156" y="8" width="10" height="10" fill="#fa3600"/>
+          </g>
+
+          <!-- Node 2: Semantic Router -->
+          <g transform="translate(390, 100)">
+            <rect width="200" height="120" fill="#f5f5ef" stroke="#282828" stroke-width="1.5"/>
+            <rect x="0" y="0" width="200" height="26" fill="#282828"/>
+            <text x="12" y="17" fill="#ffffff" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700">NODE 02: ROUTER</text>
+            <text x="12" y="52" fill="#282828" font-family="'JetBrains Mono', monospace" font-size="11">Intent Vector Dispatch</text>
+            <text x="12" y="72" fill="#626260" font-family="'JetBrains Mono', monospace" font-size="10">Embedding Dim: 1536</text>
+            <text x="12" y="94" fill="#fa3600" font-family="'JetBrains Mono', monospace" font-size="10">DIRECTED DAG REACHABILITY</text>
