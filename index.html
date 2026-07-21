@@ -248,3 +248,153 @@
         <span class="marquee-item">140MS ANALYSIS LATENCY <span class="marquee-sep">✦</span></span>
         <span class="marquee-item">FORMAL GRAPH REACHABILITY GUARANTEES <span class="marquee-sep">✦</span></span>
         <span class="marquee-item">AUTOMATED AST GUARDRAIL SYNTHESIS <span class="marquee-sep">✦</span></span>
+        <span class="marquee-item">OWASP LLM TOP-10 COMPLIANT <span class="marquee-sep">✦</span></span>
+        <span class="marquee-item">MONOTONIC STATE CONVERGENCE <span class="marquee-sep">✦</span></span>
+        <!-- Duplicated for continuous loop -->
+        <span class="marquee-item">ZERO TAINT DRIFT <span class="marquee-sep">✦</span></span>
+        <span class="marquee-item">98.4% VULNERABILITY RECALL <span class="marquee-sep">✦</span></span>
+        <span class="marquee-item">140MS ANALYSIS LATENCY <span class="marquee-sep">✦</span></span>
+        <span class="marquee-item">FORMAL GRAPH REACHABILITY GUARANTEES <span class="marquee-sep">✦</span></span>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         SECTION 01: INTERACTIVE BLUEPRINT MAP & VIOLATION INSPECTION
+         ====================================================================== -->
+    <section id="system-map" class="section map-section">
+      <div class="map-header">
+        <div>
+          <span class="txt-mono mono-12 txt-orange">[01] SYSTEM ARCHITECTURE BLUEPRINT</span>
+          <h2 class="heading h3" style="margin-top: 0.4rem;">MULTI-AGENT TOPOLOGY & ADVERSARIAL TRAJECTORY INSPECTOR</h2>
+        </div>
+        <div style="display: flex; gap: 1.6rem; align-items: center; flex-wrap: wrap;">
+          <button id="btn-open-ingest-modal" class="btn-standalone btn-brand-solid" style="padding: 0.8rem 1.6rem; font-size: 1.15rem;">
+            + INGEST CUSTOM SYSTEM / CODE
+          </button>
+          <div id="taint-counter" class="hud-chip chip-brand">ACTIVE_VULNS: 4 / 4</div>
+          <div id="map-node-count" class="hud-chip">TOPOLOGY_NODES: 6</div>
+        </div>
+      </div>
+
+      <div class="map-viewport">
+        <!-- SVG Canvas with Taint Vector Animations -->
+        <svg class="blueprint-svg" viewBox="0 0 1440 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="mapSubGrid" width="30" height="30" patternUnits="userSpaceOnUse">
+              <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#b3b3af" stroke-width="0.5" stroke-opacity="0.25"/>
+            </pattern>
+            <style>
+              @keyframes dashAnim {
+                to { stroke-dashoffset: -30; }
+              }
+              #trace-path {
+                stroke-dasharray: 6 3;
+                animation: dashAnim 1s linear infinite;
+              }
+            </style>
+          </defs>
+          <rect width="1440" height="700" fill="url(#mapSubGrid)"/>
+
+          <!-- System Architectural Boundaries -->
+          <rect x="80" y="60" width="1280" height="580" fill="none" stroke="#b3b3af" stroke-width="1"/>
+          
+          <!-- Outer Architectural Dimension Annotations -->
+          <line x1="80" y1="40" x2="1360" y2="40" stroke="#b3b3af" stroke-width="1" stroke-dasharray="3 3"/>
+          <text id="map-span-annotation" x="720" y="32" fill="#626260" font-family="'JetBrains Mono', monospace" font-size="11" text-anchor="middle">TOTAL SYSTEM CLUSTER LATENCY SPAN: 140MS // BUFFER LIMIT: 16MB</text>
+          
+          <!-- Topological Zones -->
+          <line x1="480" y1="60" x2="480" y2="640" stroke="#b3b3af" stroke-width="1" stroke-dasharray="2 4"/>
+          <text x="280" y="90" fill="#b4b4b0" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="700">ZONE A // INGESTION & ROUTING</text>
+          
+          <line x1="960" y1="60" x2="960" y2="640" stroke="#b3b3af" stroke-width="1" stroke-dasharray="2 4"/>
+          <text x="720" y="90" fill="#b4b4b0" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="700">ZONE B // REASONING & SYNTHESIS</text>
+          <text x="1160" y="90" fill="#b4b4b0" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="700">ZONE C // PERSISTENCE & GATES</text>
+
+          <!-- Dynamic Elements Container (Tracks, Nodes, Trajectory Paths) -->
+          <g id="svg-dynamic-elements">
+            <!-- Will be populated dynamically by BlueprintInspector -->
+          </g>
+        </svg>
+
+        <!-- 4 Clickable Vulnerability Markers positioned directly over nodes/channels -->
+        <div class="violation-marker" data-vid="01" style="top: 58%; left: 63%;">01</div>
+        <div class="violation-marker" data-vid="02" style="top: 26%; left: 64%;">02</div>
+        <div class="violation-marker" data-vid="03" style="top: 50%; left: 22%;">03</div>
+        <div class="violation-marker" data-vid="04" style="top: 68%; left: 81%;">04</div>
+
+        <!-- Dynamic Vulnerability Tooltip Card -->
+        <div id="violation-detail-card" class="violation-card">
+          <div class="violation-card-tag" id="card-tag">[OWASP-LLM-08] // CRITICAL</div>
+          <div class="violation-card-title" id="card-title">Excessive Tool Privilege Escalation</div>
+          <div class="violation-card-desc" id="card-desc">
+            The tool execution agent inherits unrestricted administrative capabilities without context-boundary isolation.
+          </div>
+          <div class="violation-card-patch">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span class="txt-mono mono-10 txt-orange">SYNTHESIZED PYTHON GUARDRAIL HOOK:</span>
+              <button id="btn-copy-guardrail-code" class="btn-ctrl" style="padding: 0.2rem 0.6rem; font-size: 0.95rem; cursor: pointer;">COPY CODE</button>
+            </div>
+            <pre style="margin: 0; padding: 0.8rem; background: rgba(0,0,0,0.06); border: 1px solid var(--content--border); overflow-x: auto; max-height: 12rem;"><code id="card-patch-code" style="font-family: var(--font-mono); font-size: 1.1rem; line-height: 1.35; color: var(--content--primary); display: block; white-space: pre;">Inject AST-level permission filter + deterministic token verification.</code></pre>
+            <div class="txt-mono mono-10 txt-dim" style="margin-top: 6px;" id="card-patch-target">TARGET: backend/hardened_workflow.py</div>
+          </div>
+          <div style="display: flex; gap: 0.8rem;">
+            <button id="btn-apply-patch" class="btn-standalone btn-brand-solid" style="flex: 1; padding: 1rem 1.4rem;">
+              APPLY AUTOMATED PATCH →
+            </button>
+            <button id="btn-download-hardened" class="btn-standalone" style="display: none; padding: 1rem 1.4rem; background: var(--content--primary); color: var(--content--white); font-family: var(--font-mono); font-size: 1.1rem;">
+              DOWNLOAD .PY
+            </button>
+          </div>
+        </div>
+
+        <!-- Bottom Left Prompt HUD -->
+        <div class="map-hud-prompt">
+          <div class="map-hud-header">AGENT TELEMETRY MONITOR</div>
+          <div id="map-hud-status" class="map-hud-body">[CLICK ON ANY AGENT VULNERABILITY PIN (01-04)]</div>
+        </div>
+
+        <!-- Bottom Right Coordinates HUD -->
+        <div style="position: absolute; bottom: 2rem; right: 2rem; z-index: 30;" class="hud-chip chip-dark">
+          <span>X: <span id="coord-x" class="txt-orange">0480</span></span>
+          <span>Y: <span id="coord-y" class="txt-orange">0260</span></span>
+          <span>LATENCY: 14MS</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 02: SYSTEM ARCHITECTURE & 4-STAGE METHODOLOGY
+         ====================================================================== -->
+    <section id="architecture" class="section" style="padding: 6.4rem 3.2rem; border-bottom: 1px solid var(--content--border);">
+      <div style="margin-bottom: 4rem;">
+        <span class="txt-mono mono-12 txt-orange">[02] SYSTEM ARCHITECTURE</span>
+        <h2 class="heading h2" style="margin-top: 0.8rem;">AUTONOMOUS AUDIT PIPELINE & METHODOLOGY</h2>
+        <p class="body-text long-copy" style="max-width: 80rem; margin-top: 1.2rem;">
+          AGENT-TRACE implements a 4-phase formal verification pipeline that models agent execution topologies as directed graphs, evaluates reachability safety properties, and dynamically synthesizes AST guardrail patches.
+        </p>
+      </div>
+
+      <div class="grid-12">
+        <!-- Step 1 -->
+        <div class="col-3" style="border-right: 1px solid var(--content--border); padding-right: 2.4rem;">
+          <div style="border-bottom: 2px solid var(--content--brand); padding-bottom: 1rem; margin-bottom: 1.6rem;">
+            <span class="txt-mono mono-12 txt-orange">PHASE 01</span>
+            <h3 class="heading h5" style="margin-top: 0.4rem;">TOPOLOGY EXTRACTION</h3>
+          </div>
+          <p class="body-text" style="font-size: 1.4rem;">
+            Static ingestion of LangGraph, AutoGen, or CrewAI workflow definitions. Builds AST-level directed graph $G = (V, E)$ representing agent nodes and state message channels.
+          </p>
+          <div style="margin-top: 1.6rem; font-family: var(--font-mono); font-size: 1.1rem; color: var(--content--granite-gray);">
+            INPUT: Python / JSON DAG<br>
+            OUTPUT: Adjacency Matrix $A$
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="col-3" style="border-right: 1px solid var(--content--border); padding: 0 2.4rem;">
+          <div style="border-bottom: 2px solid var(--content--primary); padding-bottom: 1rem; margin-bottom: 1.6rem;">
+            <span class="txt-mono mono-12 txt-dim">PHASE 02</span>
+            <h3 class="heading h5" style="margin-top: 0.4rem;">TAINT REACHABILITY</h3>
+          </div>
+          <p class="body-text" style="font-size: 1.4rem;">
+            Computes reachability propagation vector $\tau_{t+1} = \alpha A \tau_t + (1-\alpha)e_k$ to mathematically prove whether unverified user context can leak into high-privilege tool execution nodes.
