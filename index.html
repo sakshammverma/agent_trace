@@ -148,3 +148,103 @@
             <text x="12" y="52" fill="#282828" font-family="'JetBrains Mono', monospace" font-size="11">Intent Vector Dispatch</text>
             <text x="12" y="72" fill="#626260" font-family="'JetBrains Mono', monospace" font-size="10">Embedding Dim: 1536</text>
             <text x="12" y="94" fill="#fa3600" font-family="'JetBrains Mono', monospace" font-size="10">DIRECTED DAG REACHABILITY</text>
+            <rect x="176" y="8" width="10" height="10" fill="#fa3600"/>
+          </g>
+
+          <!-- Node 3: Code Synthesizer -->
+          <g transform="translate(680, 80)">
+            <rect width="200" height="120" fill="#f5f5ef" stroke="#282828" stroke-width="1.5"/>
+            <rect x="0" y="0" width="200" height="26" fill="#282828"/>
+            <text x="12" y="17" fill="#ffffff" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700">NODE 03: SYNTHESIZER</text>
+            <text x="12" y="52" fill="#282828" font-family="'JetBrains Mono', monospace" font-size="11">Code Generation Agent</text>
+            <text x="12" y="72" fill="#626260" font-family="'JetBrains Mono', monospace" font-size="10">Recursion Depth: 3</text>
+            <text x="12" y="94" fill="#626260" font-family="'JetBrains Mono', monospace" font-size="10">AST Mutator: Sandbox</text>
+            <rect x="176" y="8" width="10" height="10" fill="#b3b3af"/>
+          </g>
+
+          <!-- Node 4: Critic Evaluator -->
+          <g transform="translate(950, 150)">
+            <rect width="190" height="120" fill="#f5f5ef" stroke="#282828" stroke-width="1.5"/>
+            <rect x="0" y="0" width="190" height="26" fill="#282828"/>
+            <text x="12" y="17" fill="#ffffff" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700">NODE 04: CRITIC</text>
+            <text x="12" y="52" fill="#282828" font-family="'JetBrains Mono', monospace" font-size="11">LLM-as-a-Judge</text>
+            <text x="12" y="72" fill="#626260" font-family="'JetBrains Mono', monospace" font-size="10">Formal Assertion Loop</text>
+            <text x="12" y="94" fill="#fa3600" font-family="'JetBrains Mono', monospace" font-size="10">VULN-PIN [02] ATTACHED</text>
+            <rect x="166" y="8" width="10" height="10" fill="#fa3600"/>
+          </g>
+
+          <!-- Node 5: Tool Orchestrator -->
+          <g transform="translate(500, 290)">
+            <rect width="210" height="120" fill="#f5f5ef" stroke="#282828" stroke-width="1.5"/>
+            <rect x="0" y="0" width="210" height="26" fill="#282828"/>
+            <text x="12" y="17" fill="#ffffff" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700">NODE 05: TOOL EXEC</text>
+            <text x="12" y="52" fill="#282828" font-family="'JetBrains Mono', monospace" font-size="11">Tool Calling & Dispatch</text>
+            <text x="12" y="72" fill="#626260" font-family="'JetBrains Mono', monospace" font-size="10">Privilege Scope: Root</text>
+            <text x="12" y="94" fill="#fa3600" font-family="'JetBrains Mono', monospace" font-size="10">VULN-PIN [01] ATTACHED</text>
+            <rect x="186" y="8" width="10" height="10" fill="#fa3600"/>
+          </g>
+
+          <!-- Node 6: Production DB Tool Bridge -->
+          <g transform="translate(820, 310)">
+            <rect width="200" height="110" fill="#f5f5ef" stroke="#282828" stroke-width="1.5"/>
+            <rect x="0" y="0" width="200" height="26" fill="#282828"/>
+            <text x="12" y="17" fill="#ffffff" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700">NODE 06: DB BRIDGE</text>
+            <text x="12" y="52" fill="#282828" font-family="'JetBrains Mono', monospace" font-size="11">Persistent State Store</text>
+            <text x="12" y="70" fill="#626260" font-family="'JetBrains Mono', monospace" font-size="10">ACL: Strict Transactional</text>
+            <text x="12" y="90" fill="#fa3600" font-family="'JetBrains Mono', monospace" font-size="10">HITL SUSPENSION HOOK</text>
+            <rect x="176" y="8" width="10" height="10" fill="#fa3600"/>
+          </g>
+
+          <!-- Directed State Channels & Connectors -->
+          <!-- 01 -> 02 -->
+          <path d="M300 220 L350 220 L350 160 L390 160" stroke="#282828" stroke-width="1.5" stroke-dasharray="4 2"/>
+          <!-- 02 -> 03 -->
+          <path d="M590 150 L680 150" stroke="#282828" stroke-width="1.5"/>
+          <!-- 03 -> 04 -->
+          <path d="M880 150 L950 180" stroke="#282828" stroke-width="1.5"/>
+          <!-- 04 -> 03 (Feedback loop) -->
+          <path d="M950 210 Q 880 250 780 200" stroke="#fa3600" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <!-- 02 -> 05 -->
+          <path d="M490 220 L490 350 L500 350" stroke="#282828" stroke-width="1.5"/>
+          <!-- 05 -> 06 -->
+          <path d="M710 350 L820 350" stroke="#fa3600" stroke-width="2"/>
+
+          <!-- Circuit coordinate markers -->
+          <circle cx="300" cy="220" r="3" fill="#282828"/>
+          <circle cx="590" cy="150" r="3" fill="#282828"/>
+          <circle cx="710" cy="350" r="4" fill="#fa3600"/>
+          <circle cx="820" cy="350" r="4" fill="#fa3600"/>
+        </svg>
+      </div>
+
+      <!-- Hero Bottom Bar -->
+      <div class="hero-bottom-bar">
+        <div class="hero-title-cell">
+          <h1 class="heading h1" data-config="projectTitle">AGENT-TRACE</h1>
+          <h2 class="heading h4" style="margin-top: 1.2rem; color: var(--content--terriary); font-weight: 500;" data-config="projectSubtitle">
+            AUTONOMOUS MULTI-AGENT SYSTEM TOPOLOGY, VULNERABILITY & FAILURE-CASCADE BLUEPRINTER
+          </h2>
+        </div>
+
+        <div class="hero-copy-cell">
+          <p class="body-text long-copy">
+            A formal verification & topological security auditor for multi-agent LLM systems. Maps autonomous agent DAGs, detects prompt injection cascades, tool privilege escalations, and circular deadlocks, and autonomously synthesizes deterministic AST guardrails.
+          </p>
+        </div>
+
+        <div class="hero-cta-cell">
+          <a href="#system-map" class="btn-standalone btn-brand-solid">
+            DISCOVER TOPOLOGY →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Marquee Ticker Strip -->
+    <div class="marquee-wrap">
+      <div class="marquee-content">
+        <span class="marquee-item">ZERO TAINT DRIFT <span class="marquee-sep">✦</span></span>
+        <span class="marquee-item">98.4% VULNERABILITY RECALL <span class="marquee-sep">✦</span></span>
+        <span class="marquee-item">140MS ANALYSIS LATENCY <span class="marquee-sep">✦</span></span>
+        <span class="marquee-item">FORMAL GRAPH REACHABILITY GUARANTEES <span class="marquee-sep">✦</span></span>
+        <span class="marquee-item">AUTOMATED AST GUARDRAIL SYNTHESIS <span class="marquee-sep">✦</span></span>
