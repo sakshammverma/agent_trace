@@ -998,3 +998,153 @@
           </div>
 
           <div class="slide-col">
+            <div class="slide-card">
+              <div class="slide-card-header">THEORETICAL GUARANTEES</div>
+              <div class="slide-card-title">MONOTONIC CONVERGENCE</div>
+              <div class="slide-card-desc">
+                Guarantees that state updates monotonically decrease entropy across rounds, mathematically precluding infinite deadlock loops.
+              </div>
+            </div>
+            <div class="slide-card">
+              <div class="slide-card-header">CAPABILITY ISOLATION</div>
+              <div class="slide-card-title">ZERO-TRUST AGENT PERIMETERS</div>
+              <div class="slide-card-desc">
+                Sub-agents operate in ephemeral, least-privilege sandboxes with cryptographically isolated context windows.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SLIDE 5: ALGORITHMIC MODELING -->
+      <div class="slide-slide">
+        <div class="slide-top">
+          <div>
+            <div class="slide-section-label">SLIDE 05 // CORE ALGORITHMS & MATHEMATICAL FORMULATION</div>
+            <h2 class="slide-title">TAINT PROPAGATION & STATE VERIFICATION</h2>
+          </div>
+          <div class="hud-chip chip-brand">ALGORITHMIC RIGOR</div>
+        </div>
+
+        <div class="slide-body">
+          <div class="slide-col">
+            <div class="slide-card">
+              <div class="slide-card-header">EQUATION 1: TRANSITIVE REACHABILITY</div>
+              <div style="background: rgba(40, 40, 40, 0.05); padding: 1.6rem; font-family: var(--font-mono); font-size: 1.4rem; color: var(--content--brand);">
+                R = (I - α · A)⁻¹
+              </div>
+              <div class="slide-card-desc">
+                Where $I$ is the identity matrix, $A$ is the normalized agent transmission adjacency matrix, and $\alpha \in (0, 1)$ is the attenuation factor. Non-zero entries in $R_{ij}$ define reachable vulnerability paths.
+              </div>
+            </div>
+          </div>
+
+          <div class="slide-col">
+            <div class="slide-card">
+              <div class="slide-card-header">EQUATION 2: ITERATIVE TAINT DYNAMICS</div>
+              <div style="background: rgba(40, 40, 40, 0.05); padding: 1.6rem; font-family: var(--font-mono); font-size: 1.4rem; color: var(--content--primary);">
+                τ(t+1) = α · A · τ(t) + (1 - α) · e_k
+              </div>
+              <div class="slide-card-desc">
+                Updates taint concentration $\tau$ at time step $t+1$, seeded by an untrusted payload at ingress node $k$. If $\tau_{\text{DB}} > \epsilon_{\text{threshold}}$, an automatic guardrail circuit-breaker triggers.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SLIDE 6: LIVE DEMONSTRATION -->
+      <div class="slide-slide">
+        <div class="slide-top">
+          <div>
+            <div class="slide-section-label">SLIDE 06 // SYSTEM IMPLEMENTATION & LIVE DEMONSTRATION</div>
+            <h2 class="slide-title">LIVE DEMO & INTERACTIVE TOPOLOGY</h2>
+          </div>
+          <div class="hud-chip chip-brand">SYSTEM DEMONSTRATION</div>
+        </div>
+
+        <div class="slide-body">
+          <div class="slide-col">
+            <div class="slide-card">
+              <div class="slide-card-header">DEMONSTRATION OBJECTIVES</div>
+              <div class="slide-card-title">INTERACTIVE BLUEPRINT AUDIT</div>
+              <p class="slide-card-desc long-copy" style="font-size: 1.5rem; line-height: 1.6;">
+                1. Inspect the live 6-agent topology schematic.
+                <br>
+                2. Click vulnerability pins [01] to [04] to trace live adversarial trajectories.
+                <br>
+                3. Trigger real-time auto-patches to convert attack vectors into verified guardrails.
+                <br>
+                4. Execute the Red-Team Sandbox terminal to simulate live prompt injection attacks and download the generated security audit report.
+              </p>
+            </div>
+          </div>
+
+          <div class="slide-col">
+            <div class="slide-card" style="height: 100%; justify-content: center; align-items: center; text-align: center; border: 2px dashed var(--content--brand);">
+              <div class="slide-card-header">INTERACTIVE LIVE DEMO JUMP</div>
+              <h3 class="heading h3" style="margin: 1.6rem 0;">EXPERIENCE AGENT-TRACE LIVE</h3>
+              <p class="slide-card-desc" style="margin-bottom: 2rem;">
+                Jump directly into the interactive blueprint engine. You can return to this slide deck anytime by pressing [P].
+              </p>
+              <button id="btn-slide-jump-demo" class="btn-standalone btn-brand-solid" style="padding: 1.6rem 3.2rem; font-size: 1.4rem;">
+                LAUNCH LIVE BLUEPRINT VISUALIZER →
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SLIDE 7: RESULTS & BENCHMARKS -->
+      <div class="slide-slide">
+        <div class="slide-top">
+          <div>
+            <div class="slide-section-label">SLIDE 07 // EXPERIMENTAL EVALUATION & RESULTS</div>
+            <h2 class="slide-title">EMPIRICAL BENCHMARK RESULTS</h2>
+          </div>
+          <div class="hud-chip">EVALUATION METRICS</div>
+        </div>
+
+        <div class="slide-body">
+          <div class="slide-col" style="flex: 1.5;">
+            <table class="academic-table">
+              <thead>
+                <tr>
+                  <th>SYSTEM</th>
+                  <th>RECALL</th>
+                  <th>PRECISION</th>
+                  <th>LATENCY</th>
+                  <th>AUTO-PATCH</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="highlight-row">
+                  <td>AGENT-TRACE (OURS)</td>
+                  <td>98.4%</td>
+                  <td>98.8%</td>
+                  <td>140 ms</td>
+                  <td>YES (100% EFFICACY)</td>
+                </tr>
+                <tr>
+                  <td>SEMGREP</td>
+                  <td>42.1%</td>
+                  <td>75.2%</td>
+                  <td>350 ms</td>
+                  <td>NO</td>
+                </tr>
+                <tr>
+                  <td>BANDIT</td>
+                  <td>36.5%</td>
+                  <td>68.8%</td>
+                  <td>280 ms</td>
+                  <td>NO</td>
+                </tr>
+                <tr>
+                  <td>LLM-JUDGE</td>
+                  <td>71.3%</td>
+                  <td>81.6%</td>
+                  <td>2,400 ms</td>
+                  <td>PARTIAL</td>
