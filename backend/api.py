@@ -181,3 +181,5 @@ app.mount("/assets", StaticFiles(directory=os.path.join(ROOT_DIR, "assets")), na
 @app.get("/")
 def index():
     return FileResponse(os.path.join(ROOT_DIR, "index.html"))
+
+# Production deployment verified
