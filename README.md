@@ -4,6 +4,14 @@ A production-grade telemetry, formal topology verification, and runtime guardrai
 
 ---
 
+## 🌐 Live Preview
+
+**Live Production Deployment**: [https://agent-trace.onrender.com](https://agent-trace.onrender.com)
+
+Experience the live interactive architectural blueprint visualizer, multi-agent DAG topology analyzer, and real-time red-team security sandbox in production.
+
+---
+
 ## Key Features
 
 1. **Topology Graph Analyzer (`backend/agent_trace_engine.py`)**
@@ -23,7 +31,7 @@ A production-grade telemetry, formal topology verification, and runtime guardrai
 4. **Architectural Blueprint Visualizer (`index.html`)**
    - Brutalist architectural CAD aesthetic on `#F5F5EF` paper with `#FA3600` hazard accents.
    - Interactive SVG vector topology inspector with live node dragging, animated violation vectors, and red-team sandbox.
-   - Built-in presentation deck mode for academic defense and live technical demonstration.
+   - Ingestion modal for custom multi-agent DAG swarm topologies and real-time security policy audits.
 
 ---
 

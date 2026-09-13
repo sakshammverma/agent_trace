@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/blueprint-chrome.css">
   <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/presentation-mode.css">
 </head>
 <body>
 
@@ -86,22 +85,21 @@
       </div>
 
       <div class="header-actions">
-        <button id="open-settings-btn" class="btn-fill">
+        <a href="https://github.com/sakshammverma/agent_trace" target="_blank" rel="noopener noreferrer" class="btn-fill">
           <div class="btn-fill-bg"></div>
           <div class="btn-fill-labels">
-            <span class="label-top">⚙ EDIT PROJECT INFO</span>
-            <span class="label-bot">⚙ EDIT PROJECT INFO</span>
+            <span class="label-top">GITHUB REPO</span>
+            <span class="label-bot">GITHUB REPO</span>
           </div>
-        </button>
-
-        <button id="btn-open-presentation" class="btn-fill btn-brand no-border-right">
+        </a>
+        <a href="#system-map" class="btn-fill btn-brand no-border-right">
           <div class="btn-fill-bg"></div>
           <div class="btn-fill-labels">
-            <span class="label-top">▶ PRESENTATION MODE [P]</span>
-            <span class="label-bot">▶ PRESENTATION MODE [P]</span>
+            <span class="label-top">INSPECT SYSTEM →</span>
+            <span class="label-bot">INSPECT SYSTEM →</span>
           </div>
           <span class="btn-arrow">→</span>
-        </button>
+        </a>
       </div>
     </header>
 
@@ -664,9 +662,9 @@
             Autonomous Multi-Agent System Topology, Vulnerability & Failure-Cascade Blueprinter
           </p>
           <div style="margin-top: 2rem;">
-            <button id="btn-footer-presentation" class="btn-standalone btn-brand-solid" onclick="window.presentationDeck.open(0);">
-              LAUNCH PRESENTATION [P] →
-            </button>
+            <a href="#system-map" class="btn-standalone btn-brand-solid">
+              EXPLORE BLUEPRINT TOPOLOGY →
+            </a>
           </div>
         </div>
       </div>
@@ -679,66 +677,6 @@
     </footer>
 
   </div> <!-- /.body-inner -->
-
-  <!-- ========================================================================
-       PROJECT SETTINGS DRAWER (Edit names, college, guide, titles)
-       ======================================================================== -->
-  <div id="settings-drawer" class="drawer-overlay">
-    <div class="drawer-panel">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--content--border); padding-bottom: 1.6rem;">
-        <h3 class="heading h4">PROJECT CONFIGURATION</h3>
-        <button id="close-settings-btn" style="background: none; border: none; font-size: 2.4rem; cursor: pointer;">×</button>
-      </div>
-
-      <p class="body-text" style="font-size: 1.35rem;">
-        Customize the project metadata for your presentation tomorrow. Changes are reactively applied across the website and slide deck.
-      </p>
-
-      <div>
-        <label class="txt-mono mono-10 txt-orange" style="display: block; margin-bottom: 0.6rem;">PROJECT ACRONYM / SHORT TITLE</label>
-        <input id="input-project-title" class="drawer-input" type="text">
-      </div>
-
-      <div>
-        <label class="txt-mono mono-10 txt-orange" style="display: block; margin-bottom: 0.6rem;">PROJECT SUBTITLE / TOPIC</label>
-        <textarea id="input-project-subtitle" class="drawer-input" rows="2"></textarea>
-      </div>
-
-      <div>
-        <label class="txt-mono mono-10 txt-orange" style="display: block; margin-bottom: 0.6rem;">STUDENT NAME / TEAM MEMBERS</label>
-        <input id="input-student-name" class="drawer-input" type="text">
-      </div>
-
-      <div>
-        <label class="txt-mono mono-10 txt-orange" style="display: block; margin-bottom: 0.6rem;">ROLL NUMBER / PRN / CLASS</label>
-        <input id="input-roll-number" class="drawer-input" type="text">
-      </div>
-
-      <div>
-        <label class="txt-mono mono-10 txt-orange" style="display: block; margin-bottom: 0.6rem;">COLLEGE / DEPARTMENT</label>
-        <input id="input-college-name" class="drawer-input" type="text">
-      </div>
-
-      <div>
-        <label class="txt-mono mono-10 txt-orange" style="display: block; margin-bottom: 0.6rem;">PROJECT GUIDE / SUPERVISOR</label>
-        <input id="input-guide-name" class="drawer-input" type="text">
-      </div>
-
-      <div>
-        <label class="txt-mono mono-10 txt-orange" style="display: block; margin-bottom: 0.6rem;">ACADEMIC YEAR</label>
-        <input id="input-academic-year" class="drawer-input" type="text">
-      </div>
-
-      <div style="display: flex; gap: 1.2rem; margin-top: 1rem;">
-        <button id="save-settings-btn" class="btn-standalone btn-brand-solid" style="flex: 1;">
-          SAVE CHANGES ✓
-        </button>
-        <button id="reset-settings-btn" class="btn-standalone" style="border-color: var(--content--border);">
-          RESET
-        </button>
-      </div>
-    </div>
-  </div>
 
   <!-- ========================================================================
        MULTI-AGENT TOPOLOGY INGESTION MODAL
@@ -810,427 +748,10 @@
     </div>
   </div>
 
-  <!-- ========================================================================
-       FULL-SCREEN 8-SLIDE VIVA PRESENTATION DECK OVERLAY
-       ======================================================================== -->
-  <div class="presentation-deck">
-    <!-- Top Presentation Navigation Bar -->
-    <div class="presentation-bar">
-      <div class="deck-meta">
-        <span class="slide-counter" id="deck-counter">SLIDE 01 / 08</span>
-        <span class="txt-mono mono-12" data-config="projectTitle">AGENT-TRACE</span>
-        <span class="txt-mono mono-10 txt-dim">// 4TH YEAR MINI PROJECT DEFENSE</span>
-      </div>
-
-      <div class="deck-nav-controls">
-        <button id="btn-prev-slide" class="deck-ctrl-btn">← PREV [LEFT]</button>
-        <button id="btn-next-slide" class="deck-ctrl-btn">NEXT [RIGHT] →</button>
-        <button id="btn-fullscreen-slide" class="deck-ctrl-btn">FULLSCREEN [F]</button>
-        <button id="btn-exit-presentation" class="deck-ctrl-btn exit-btn">EXIT SLIDES [ESC]</button>
-      </div>
-    </div>
-
-    <!-- Slides Viewport Container -->
-    <div class="slides-viewport">
-
-      <!-- SLIDE 1: TITLE & AUTHORS -->
-      <div class="slide-slide active-slide">
-        <div class="slide-top">
-          <div>
-            <div class="slide-section-label">SLIDE 01 // 4TH YEAR MINI PROJECT PRESENTATION</div>
-            <h2 class="slide-title" data-config="projectTitle">AGENT-TRACE</h2>
-            <div class="heading h4" style="margin-top: 1rem; color: var(--content--terriary);" data-config="projectSubtitle">
-              AUTONOMOUS MULTI-AGENT SYSTEM TOPOLOGY, VULNERABILITY & FAILURE-CASCADE BLUEPRINTER
-            </div>
-          </div>
-          <div class="hud-chip chip-brand">FINAL YEAR B.TECH DEFENSE</div>
-        </div>
-
-        <div class="slide-body">
-          <div class="slide-col">
-            <div class="slide-card">
-              <div class="slide-card-header">CANDIDATE INFORMATION</div>
-              <div class="slide-card-title" data-config="studentName">Saksham & Team</div>
-              <div class="slide-card-desc" data-config="rollNumber">B.Tech Computer Science & Engineering</div>
-              <div class="txt-mono mono-12" data-config="collegeName">Department of Computer Science & Engineering</div>
-            </div>
-            <div class="slide-card">
-              <div class="slide-card-header">PROJECT SUPERVISION</div>
-              <div class="slide-card-title" data-config="guideName">Dr. Project Guide & Evaluation Committee</div>
-              <div class="slide-card-desc">Academic Year: <span data-config="academicYear">2026 - 2027</span></div>
-            </div>
-          </div>
-
-          <div class="slide-col">
-            <div class="slide-card" style="height: 100%; justify-content: center; background: rgba(250, 54, 0, 0.03); border-color: var(--content--brand);">
-              <div class="slide-card-header">PROJECT ABSTRACT</div>
-              <p class="slide-card-desc long-copy" style="font-size: 1.5rem; line-height: 1.6;">
-                As multi-agent autonomous architectures rapidly displace monolithic LLM applications, inter-agent vulnerabilities—specifically prompt injection cascades, tool privilege escalations, and cyclic state deadlocks—have emerged as catastrophic failure modes. 
-                <br><br>
-                <strong>AGENT-TRACE</strong> introduces a formal verification engine that maps execution topologies into mathematical directed reachability graphs, actively red-teams agent boundaries, and autonomously synthesizes deterministic AST guardrails with 98.4% detection recall.
-              </p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- SLIDE 2: PROBLEM STATEMENT -->
-      <div class="slide-slide">
-        <div class="slide-top">
-          <div>
-            <div class="slide-section-label">SLIDE 02 // PROBLEM STATEMENT & INDUSTRIAL MOTIVATION</div>
-            <h2 class="slide-title">THE SILENT CRISIS OF MULTI-AGENT CASCADES</h2>
-          </div>
-          <div class="hud-chip">RESEARCH MOTIVATION</div>
-        </div>
-
-        <div class="slide-body">
-          <div class="slide-col">
-            <div class="slide-card">
-              <div class="slide-card-header">[CRITICAL FLAW 01]</div>
-              <div class="slide-card-title">INDIRECT PROMPT INJECTION CASCADES</div>
-              <div class="slide-card-desc">
-                When a web scraper or reader agent ingests adversarial text, tainted instructions bypass system boundaries and propagate to downstream executive agents, causing unauthorized remote actions.
-              </div>
-            </div>
-            <div class="slide-card">
-              <div class="slide-card-header">[CRITICAL FLAW 02]</div>
-              <div class="slide-card-title">EXCESSIVE TOOL PRIVILEGE ESCALATION</div>
-              <div class="slide-card-desc">
-                Tool dispatchers frequently operate with root permissions across database and execution APIs without intermediate capability verification or human-in-the-loop safeguards.
-              </div>
-            </div>
-          </div>
-
-          <div class="slide-col">
-            <div class="slide-card">
-              <div class="slide-card-header">[CRITICAL FLAW 03]</div>
-              <div class="slide-card-title">CIRCULAR STATE DEADLOCKS</div>
-              <div class="slide-card-desc">
-                Iterative critique loops between generator and evaluator agents frequently diverge or oscillate infinitely, consuming millions of tokens without reaching monotonic convergence.
-              </div>
-            </div>
-            <div class="slide-card">
-              <div class="slide-card-header">[INDUSTRY GAP]</div>
-              <div class="slide-card-title">FAILURE OF STATIC CODE ANALYSIS</div>
-              <div class="slide-card-desc">
-                Traditional linters (Semgrep, Bandit) inspect syntax, not runtime agentic state reachability. They miss 57%+ of multi-agent cognitive vulnerabilities.
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- SLIDE 3: OBJECTIVES & SCOPE -->
-      <div class="slide-slide">
-        <div class="slide-top">
-          <div>
-            <div class="slide-section-label">SLIDE 03 // PROJECT OBJECTIVES & CONTRIBUTIONS</div>
-            <h2 class="slide-title">CORE OBJECTIVES OF AGENT-TRACE</h2>
-          </div>
-          <div class="hud-chip chip-brand">NOVEL CONTRIBUTIONS</div>
-        </div>
-
-        <div class="slide-body">
-          <div class="slide-col">
-            <div class="slide-card">
-              <div class="slide-card-header">OBJECTIVE 1</div>
-              <div class="slide-card-title">GRAPH-BASED TOPOLOGY EXTRACTION</div>
-              <div class="slide-card-desc">
-                Parse multi-agent frameworks (LangGraph, CrewAI, AutoGen) into formal directed state graphs $G=(V, E)$ with annotated permission vectors.
-              </div>
-            </div>
-            <div class="slide-card">
-              <div class="slide-card-header">OBJECTIVE 2</div>
-              <div class="slide-card-title">MATHEMATICAL TAINT PROPAGATION</div>
-              <div class="slide-card-desc">
-                Compute transitive reachability matrices $(I - A)^{-1}$ to identify cognitive attack paths from untrusted ingress to high-privilege tool execution points.
-              </div>
-            </div>
-          </div>
-
-          <div class="slide-col">
-            <div class="slide-card">
-              <div class="slide-card-header">OBJECTIVE 3</div>
-              <div class="slide-card-title">METAMORPHIC ADVERSARIAL RED-TEAMING</div>
-              <div class="slide-card-desc">
-                Execute automated semantic boundary fuzzing to simulate prompt hijacking and verify boundary isolation under worst-case inputs.
-              </div>
-            </div>
-            <div class="slide-card">
-              <div class="slide-card-header">OBJECTIVE 4</div>
-              <div class="slide-card-title">DETERMINISTIC AUTO-PATCH SYNTHESIS</div>
-              <div class="slide-card-desc">
-                Synthesize and inject runtime AST guardrails: token-level regex constraints, maximum recursion thresholds, and signed cryptographic approval hooks.
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- SLIDE 4: SYSTEM ARCHITECTURE -->
-      <div class="slide-slide">
-        <div class="slide-top">
-          <div>
-            <div class="slide-section-label">SLIDE 04 // SYSTEM ARCHITECTURE & THEORETICAL FRAMEWORK</div>
-            <h2 class="slide-title">PIPELINE ARCHITECTURE</h2>
-          </div>
-          <div class="hud-chip">HIGH LEVEL ARCHITECTURE</div>
-        </div>
-
-        <div class="slide-body">
-          <div class="slide-col" style="flex: 1.2;">
-            <div class="slide-card" style="height: 100%; justify-content: space-around;">
-              <div class="slide-card-header">END-TO-END VERIFICATION FLOW</div>
-              <div style="font-family: var(--font-mono); font-size: 1.3rem; line-height: 2;">
-                [AGENT CODE / DAG CONFIG] 
-                <br> └──► <strong style="color: var(--content--brand);">AST Parser & Graph Extractor</strong>
-                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; └──► <strong style="color: var(--content--primary);">Reachability Adjacency Matrix $A$</strong>
-                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ├──► <strong style="color: var(--content--brand);">Taint Vector Propagation Engine</strong>
-                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ├──► <strong style="color: var(--content--primary);">Metamorphic Adversarial Fuzzer</strong>
-                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; └──► <strong style="color: var(--content--brand);">Auto-Patch & Guardrail Synthesizer</strong>
-                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; └──► [VERIFIED DETERMINISTIC AGENT GRAPH]
-              </div>
-            </div>
-          </div>
-
-          <div class="slide-col">
-            <div class="slide-card">
-              <div class="slide-card-header">THEORETICAL GUARANTEES</div>
-              <div class="slide-card-title">MONOTONIC CONVERGENCE</div>
-              <div class="slide-card-desc">
-                Guarantees that state updates monotonically decrease entropy across rounds, mathematically precluding infinite deadlock loops.
-              </div>
-            </div>
-            <div class="slide-card">
-              <div class="slide-card-header">CAPABILITY ISOLATION</div>
-              <div class="slide-card-title">ZERO-TRUST AGENT PERIMETERS</div>
-              <div class="slide-card-desc">
-                Sub-agents operate in ephemeral, least-privilege sandboxes with cryptographically isolated context windows.
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- SLIDE 5: ALGORITHMIC MODELING -->
-      <div class="slide-slide">
-        <div class="slide-top">
-          <div>
-            <div class="slide-section-label">SLIDE 05 // CORE ALGORITHMS & MATHEMATICAL FORMULATION</div>
-            <h2 class="slide-title">TAINT PROPAGATION & STATE VERIFICATION</h2>
-          </div>
-          <div class="hud-chip chip-brand">ALGORITHMIC RIGOR</div>
-        </div>
-
-        <div class="slide-body">
-          <div class="slide-col">
-            <div class="slide-card">
-              <div class="slide-card-header">EQUATION 1: TRANSITIVE REACHABILITY</div>
-              <div style="background: rgba(40, 40, 40, 0.05); padding: 1.6rem; font-family: var(--font-mono); font-size: 1.4rem; color: var(--content--brand);">
-                R = (I - α · A)⁻¹
-              </div>
-              <div class="slide-card-desc">
-                Where $I$ is the identity matrix, $A$ is the normalized agent transmission adjacency matrix, and $\alpha \in (0, 1)$ is the attenuation factor. Non-zero entries in $R_{ij}$ define reachable vulnerability paths.
-              </div>
-            </div>
-          </div>
-
-          <div class="slide-col">
-            <div class="slide-card">
-              <div class="slide-card-header">EQUATION 2: ITERATIVE TAINT DYNAMICS</div>
-              <div style="background: rgba(40, 40, 40, 0.05); padding: 1.6rem; font-family: var(--font-mono); font-size: 1.4rem; color: var(--content--primary);">
-                τ(t+1) = α · A · τ(t) + (1 - α) · e_k
-              </div>
-              <div class="slide-card-desc">
-                Updates taint concentration $\tau$ at time step $t+1$, seeded by an untrusted payload at ingress node $k$. If $\tau_{\text{DB}} > \epsilon_{\text{threshold}}$, an automatic guardrail circuit-breaker triggers.
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- SLIDE 6: LIVE DEMONSTRATION -->
-      <div class="slide-slide">
-        <div class="slide-top">
-          <div>
-            <div class="slide-section-label">SLIDE 06 // SYSTEM IMPLEMENTATION & LIVE DEMONSTRATION</div>
-            <h2 class="slide-title">LIVE DEMO & INTERACTIVE TOPOLOGY</h2>
-          </div>
-          <div class="hud-chip chip-brand">SYSTEM DEMONSTRATION</div>
-        </div>
-
-        <div class="slide-body">
-          <div class="slide-col">
-            <div class="slide-card">
-              <div class="slide-card-header">DEMONSTRATION OBJECTIVES</div>
-              <div class="slide-card-title">INTERACTIVE BLUEPRINT AUDIT</div>
-              <p class="slide-card-desc long-copy" style="font-size: 1.5rem; line-height: 1.6;">
-                1. Inspect the live 6-agent topology schematic.
-                <br>
-                2. Click vulnerability pins [01] to [04] to trace live adversarial trajectories.
-                <br>
-                3. Trigger real-time auto-patches to convert attack vectors into verified guardrails.
-                <br>
-                4. Execute the Red-Team Sandbox terminal to simulate live prompt injection attacks and download the generated security audit report.
-              </p>
-            </div>
-          </div>
-
-          <div class="slide-col">
-            <div class="slide-card" style="height: 100%; justify-content: center; align-items: center; text-align: center; border: 2px dashed var(--content--brand);">
-              <div class="slide-card-header">INTERACTIVE LIVE DEMO JUMP</div>
-              <h3 class="heading h3" style="margin: 1.6rem 0;">EXPERIENCE AGENT-TRACE LIVE</h3>
-              <p class="slide-card-desc" style="margin-bottom: 2rem;">
-                Jump directly into the interactive blueprint engine. You can return to this slide deck anytime by pressing [P].
-              </p>
-              <button id="btn-slide-jump-demo" class="btn-standalone btn-brand-solid" style="padding: 1.6rem 3.2rem; font-size: 1.4rem;">
-                LAUNCH LIVE BLUEPRINT VISUALIZER →
-              </button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- SLIDE 7: RESULTS & BENCHMARKS -->
-      <div class="slide-slide">
-        <div class="slide-top">
-          <div>
-            <div class="slide-section-label">SLIDE 07 // EXPERIMENTAL EVALUATION & RESULTS</div>
-            <h2 class="slide-title">EMPIRICAL BENCHMARK RESULTS</h2>
-          </div>
-          <div class="hud-chip">EVALUATION METRICS</div>
-        </div>
-
-        <div class="slide-body">
-          <div class="slide-col" style="flex: 1.5;">
-            <table class="academic-table">
-              <thead>
-                <tr>
-                  <th>SYSTEM</th>
-                  <th>RECALL</th>
-                  <th>PRECISION</th>
-                  <th>LATENCY</th>
-                  <th>AUTO-PATCH</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="highlight-row">
-                  <td>AGENT-TRACE (OURS)</td>
-                  <td>98.4%</td>
-                  <td>98.8%</td>
-                  <td>140 ms</td>
-                  <td>YES (100% EFFICACY)</td>
-                </tr>
-                <tr>
-                  <td>SEMGREP</td>
-                  <td>42.1%</td>
-                  <td>75.2%</td>
-                  <td>350 ms</td>
-                  <td>NO</td>
-                </tr>
-                <tr>
-                  <td>BANDIT</td>
-                  <td>36.5%</td>
-                  <td>68.8%</td>
-                  <td>280 ms</td>
-                  <td>NO</td>
-                </tr>
-                <tr>
-                  <td>LLM-JUDGE</td>
-                  <td>71.3%</td>
-                  <td>81.6%</td>
-                  <td>2,400 ms</td>
-                  <td>PARTIAL</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="slide-col">
-            <div class="slide-card">
-              <div class="slide-card-header">KEY FINDINGS</div>
-              <div class="slide-card-title">17X FASTER THAN LLM JUDGES</div>
-              <div class="slide-card-desc">
-                By operating at the algebraic reachability layer, AGENT-TRACE achieves 140ms latency compared to 2.4s for full LLM evaluations, with a 27% increase in recall.
-              </div>
-            </div>
-            <div class="slide-card">
-              <div class="slide-card-header">ZERO TAINT LEAKS</div>
-              <div class="slide-card-title">100% PATCH EFFICACY</div>
-              <div class="slide-card-desc">
-                Synthesized deterministic AST guardrails successfully eliminated 100% of tested privilege escalation vectors in the benchmark dataset.
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- SLIDE 8: CONCLUSION & Q&A -->
-      <div class="slide-slide">
-        <div class="slide-top">
-          <div>
-            <div class="slide-section-label">SLIDE 08 // CONCLUSION, FUTURE SCOPE & DEFENSE DEFENSE</div>
-            <h2 class="slide-title">CONCLUSION & FUTURE HORIZONS</h2>
-          </div>
-          <div class="hud-chip chip-brand">VIVA DEFENSE Q&A</div>
-        </div>
-
-        <div class="slide-body">
-          <div class="slide-col">
-            <div class="slide-card">
-              <div class="slide-card-header">PROJECT SUMMARY</div>
-              <div class="slide-card-title">WHAT WE ACHIEVED</div>
-              <div class="slide-card-desc long-copy">
-                ✓ Formalized multi-agent state spaces into algebraic reachability graphs.
-                <br>
-                ✓ Built an interactive blueprint visualizer with real-time taint vector tracing.
-                <br>
-                ✓ Developed automated AST guardrail synthesis with 98.4% detection recall.
-                <br>
-                ✓ Successfully validated on 250 enterprise multi-agent execution topologies.
-              </div>
-            </div>
-          </div>
-
-          <div class="slide-col">
-            <div class="slide-card">
-              <div class="slide-card-header">FUTURE SCOPE</div>
-              <div class="slide-card-title">NEXT RESEARCH STEPS</div>
-              <div class="slide-card-desc long-copy">
-                1. Support for decentralized Byzantine multi-agent consensus protocols.
-                <br>
-                2. Zero-knowledge cryptographic proofs of agent execution state.
-                <br>
-                3. Direct integration with Kubernetes and Docker containerized agent pods.
-              </div>
-            </div>
-            <div class="slide-card" style="background: rgba(250, 54, 0, 0.05); border-color: var(--content--brand); text-align: center;">
-              <h3 class="heading h4" style="color: var(--content--brand);">THANK YOU</h3>
-              <p class="body-text" style="margin-top: 0.4rem;">
-                We now welcome questions from the evaluation committee.
-              </p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    </div> <!-- /.slides-viewport -->
-  </div> <!-- /.presentation-deck -->
-
   <!-- Application Logic Scripts -->
   <script src="js/project-config.js?v=2.1"></script>
   <script src="js/blueprint-inspector.js?v=2.1"></script>
   <script src="js/redteam-sandbox.js?v=2.1"></script>
-  <script src="js/presentation-deck.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
